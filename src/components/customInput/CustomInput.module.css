@@ -1,0 +1,23 @@
+.customInputWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+   
+}
+.inputBox{
+border: none !important;
+}
+.overAll{
+ border: 1px solid #f0f0f0;
+    padding: 2px;
+     width: 70%;
+    border-radius: 5px;
+}
+.sendBtnDiv{
+    background: rgb(232, 232, 245);
+    padding: 3px 5px;
+    margin: 3px 5px;
+    border: none;
+    cursor: pointer;
+}

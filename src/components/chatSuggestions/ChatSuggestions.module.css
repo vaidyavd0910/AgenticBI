@@ -1,0 +1,25 @@
+.chatSuggestionContainer {
+  text-align: center;
+  margin-top: 100px;
+  padding: 20px;
+}
+
+.icon {
+  font-size: 30px;
+  color: #1890ff;
+  margin-bottom: 10px;
+}
+
+.suggestionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  max-width: 800px;
+  margin: 20px auto 0;
+}
+
+.suggestionBtn {
+  text-align: left;
+  height: 48px;
+  white-space: normal;
+}
