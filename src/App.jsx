@@ -6,11 +6,18 @@ import ChatSuggestions from './components/chatSuggestions/ChatSuggestions';
 import { CustomInput } from './components/customInput/CustomInput';
 import { Footer } from './components/footer/Footer';
 import { ChatPage } from './pages/chatPage/ChatPage';
+import { NewAnalysis } from './pages/newAnalysis/NewAnalysis';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-  <><ChatPage/>
-  </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/new-analysis" element={<NewAnalysis />} />
+        <Route path="/chatPage" element={<ChatPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

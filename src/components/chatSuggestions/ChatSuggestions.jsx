@@ -14,7 +14,12 @@ const suggestions = [
   "Show me regional performance breakdown"
 ];
 
-const ChatSuggestions = () => {
+const ChatSuggestions = ({ setInput, sendMessage }) => {
+  const handleClick = (text) => {
+    setInput(text);
+    // sendMessage && sendMessage(text);
+  };
+
   return (
     <div className={styles.chatSuggestionContainer}>
       <PlusOutlined className={styles.icon} />
@@ -22,7 +27,12 @@ const ChatSuggestions = () => {
       <Text type="secondary">Ask any question about your data in natural language</Text>
       <div className={styles.suggestionsGrid}>
         {suggestions.map((item, idx) => (
-          <Button key={idx} className={styles.suggestionBtn} type="default">
+          <Button
+            key={idx}
+            className={styles.suggestionBtn}
+            type="default"
+            onClick={() => handleClick(item)}
+          >
             {item}
           </Button>
         ))}

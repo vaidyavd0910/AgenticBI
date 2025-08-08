@@ -13,12 +13,10 @@ export const ChatPage = () => {
             <ChatSubNav />
           </div>
           <div className={styles.content}>
-            <div style={{ height: '500px' }}>
+            <div style={{ height: '600px' }}>
               <ChatBot/>
             </div>
           </div>
-          <ChatSuggestions/>
-          <Footer/>
         </div>
   )
 }

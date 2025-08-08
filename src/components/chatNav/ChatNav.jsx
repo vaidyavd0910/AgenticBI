@@ -24,6 +24,7 @@ import { Dropdown, Menu } from 'antd';
 import { TbDeviceIpadPin } from "react-icons/tb";
 import { FaLink } from "react-icons/fa6";
 import { HiOutlineDownload } from "react-icons/hi";
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -45,6 +46,11 @@ export const ChatNav = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('Q4 Sales Performance Deep Dive');
+   const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/new-analysis');
+  };
 
   const handleDropdownChange = (e) => {
     setSelectedOption(e.target.value);
@@ -77,7 +83,7 @@ export const ChatNav = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div className={styles.backButton}>
+          <div className={styles.backButton} onClick={handleBackClick}>
             <IoArrowBackOutline />
           </div>
 
