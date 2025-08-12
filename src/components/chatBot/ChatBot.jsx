@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './ChatBot.module.css';
 import { Footer } from '../footer/Footer';
 import { useLocation } from 'react-router-dom';
 import ChatSuggestions from '../chatSuggestions/ChatSuggestions';
+import { ChatResponseCard } from '../chatResponseCard/ChatResponseCard';
+import { chatMessageData } from '../../utils/staticData';
+import { fetchQueryResult } from '../../services/Api';
+
+const BASE_URL = "http://13.218.69.29:8000"; // your backend API
+
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -20,32 +26,40 @@ const ChatBot = () => {
     setInput('');
 
     try {
-      const response = await axios.post('http://localhost:5000/chat', {
-        message: input,
-      });
-
+      const response = await fetchQueryResult(input);
       const botResponse = {
         sender: 'bot',
-        text: response.data.reply,
-        chart: response.data.showChart,
+        text: response.data?.reply || JSON.stringify(response.data),
+        chart: response.data?.showChart || false
       };
 
       setMessages([...newMessages, botResponse]);
     } catch (err) {
+      console.error("API Error:", err);
       setMessages([...newMessages, { sender: 'bot', text: 'Server error' }]);
     }
   };
 
   return (
-    <div className={styles.chatContainer}>
-      {fromNewAnalysis && messages.length === 0 ? (
-        <ChatSuggestions setInput={setInput} sendMessage={sendMessage} />
-      ) : (
-        <>
+    <>
+      <div className={styles.chatContainer}>
+        {fromNewAnalysis && messages.length === 0 ? (
+          <ChatSuggestions setInput={setInput} sendMessage={sendMessage} />
+        ) : (
           <div className={styles.chatHistory}>
             {messages.map((msg, index) => (
-              <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
-                {msg.text}
+              <div
+                key={index}
+                className={`${styles.message} ${styles[msg.sender]}`}
+              >
+                {index % 2 === 0 ? (
+                  <>{msg.text}</>
+                ) : (
+                  <ChatResponseCard
+                    insights={chatMessageData?.insights}
+                    question={chatMessageData?.question}
+                  />
+                )}
 
                 {msg.sender === 'bot' && msg.chart && (
                   <div className={styles.card}>
@@ -84,11 +98,11 @@ const ChatBot = () => {
               </div>
             ))}
           </div>
-        </>
-      )}
+        )}
+      </div>
 
       <Footer message={input} setMessage={setInput} onSend={sendMessage} />
-    </div>
+    </>
   );
 };
 
