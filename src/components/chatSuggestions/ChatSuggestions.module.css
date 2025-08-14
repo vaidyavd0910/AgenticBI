@@ -2,6 +2,7 @@
   text-align: center;
   /* margin-top: 100px;
   padding: 20px; */
+
 }
 
 .icon {
@@ -18,8 +19,14 @@
   margin: 20px auto 0;
 }
 
+.sparkel{
+  margin: 5px;
+}
 .suggestionBtn {
   text-align: left;
   height: 48px;
   white-space: normal;
+}
+.suggestionBtn:hover{
+  background-color:  #cbd5e1;
 }
