@@ -3,3 +3,38 @@
     justify-content: space-between;
     border-bottom: 1px solid #f0f0f0;
 }
+.brainIconContainer{
+    padding: 6px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.brainIconContainer:hover{
+background: rgb(232, 232, 245);
+padding: 6px  5px;
+border-radius: 5px;
+}
+.editText{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.checkButton{
+    cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+}
+.checkButton:hover{
+    background: rgb(232, 232, 245);
+}
+.crossButton{
+    cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+}
+.crossButton:hover{
+    background: rgb(232, 232, 245);
+}

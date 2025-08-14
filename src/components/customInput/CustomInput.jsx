@@ -3,6 +3,7 @@ import { LuSend } from "react-icons/lu";
 import { Input } from 'antd';
 const { TextArea } = Input;
 import styles from './CustomInput.module.css';
+import { Send } from 'lucide-react';
 
 export const CustomInput = ({ placeholder, value, onChange, onSend }) => {
   return (
@@ -22,7 +23,7 @@ export const CustomInput = ({ placeholder, value, onChange, onSend }) => {
           }}
         />
         <button className={styles.sendBtnDiv} onClick={onSend}>
-          <LuSend className={styles.sendBtn} />
+          <Send height={'15'} color={'white'}/>
         </button>
       </div>
     </div>

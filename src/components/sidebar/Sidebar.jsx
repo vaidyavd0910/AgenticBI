@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Sidebar.module.css'
 import { ExpandCollapseSection } from '../expandCollapse/ExpandCollapseSection';
+import { addQuestion } from '../../service/Api';
 
 
 export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 
+	
 	const contextMemory = [
 	{ label: "Time Period:", value: "Last 30 days" },
 	{ label: "Dataset:", value: "Sales Dataset" },
@@ -23,6 +25,7 @@ export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 	"Show me regional performance breakdown",
 	];
 
+	
 	return (
 		<div className={isSidebarExpanded ? `${styles.sidebarExpanded}` : `${styles.sidebarHidden}`}>
 			<div className={styles.container}>

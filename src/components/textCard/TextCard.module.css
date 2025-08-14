@@ -1,0 +1,11 @@
+.background{
+    padding: 15px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: white;
+    font-size: small;
+}
+.background:hover{
+    background-color:  #cbd5e1;
+}
