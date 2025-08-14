@@ -1,0 +1,58 @@
+.cardContainer {
+  border-radius: 10px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  flex-grow: auto;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.readToggleBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #0d6efd;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 30%;
+}
+
+.chartPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dee2e6;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  min-height: 200px;
+  min-width: 500px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  text-align: center;
+  color: #6c757d;
+  flex-direction: column;
+}
+
+.insightsBox {
+  padding: 1rem 2rem;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+}
+
+.insightsTitle {
+	font-size: large;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
