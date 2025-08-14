@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import ChatSuggestions from '../chatSuggestions/ChatSuggestions';
 import { ChatResponseCard } from '../chatResponseCard/ChatResponseCard';
 import { chatMessageData } from '../../utils/staticData';
-import { fetchQueryResult } from '../../services/Api';
+// import { fetchQueryResult } from '../../services/Api';
 
 const BASE_URL = "http://13.218.69.29:8000"; // your backend API
 
@@ -42,66 +42,69 @@ const ChatBot = () => {
 
   return (
     <>
-      <div className={styles.chatContainer}>
-        {fromNewAnalysis && messages.length === 0 ? (
-          <ChatSuggestions setInput={setInput} sendMessage={sendMessage} />
-        ) : (
-          <div className={styles.chatHistory}>
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`${styles.message} ${styles[msg.sender]}`}
-              >
-                {index % 2 === 0 ? (
-                  <>{msg.text}</>
-                ) : (
-                  <ChatResponseCard
-                    insights={chatMessageData?.insights}
-                    question={chatMessageData?.question}
-                  />
-                )}
+      <div className={styles.chatSectionParent}>
+        <div className={styles.chatContainer}>
+          {fromNewAnalysis && messages.length === 0 ? (
+            <ChatSuggestions setInput={setInput} sendMessage={sendMessage} />
+          ) : (
+            <div className={styles.chatHistory}>
+              {messages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`${styles.message} ${styles[msg.sender]}`}
+                >
+                  {index % 2 === 0 ? (
+                    <>{msg.text}</>
+                  ) : (
+                    <ChatResponseCard
+                      insights={chatMessageData?.insights}
+                      question={chatMessageData?.question}
+                    />
+                  )}
 
-                {msg.sender === 'bot' && msg.chart && (
-                  <div className={styles.card}>
-                    <div className={styles.summary}>
-                      <span>
-                        Revenue increased 23% QoQ with Premium products leading growth at 35%
-                      </span>
-                      <span
-                        className={styles.readMoreToggle}
-                        onClick={() => setExpanded(!expanded)}
-                      >
-                        {expanded ? '🔼' : '🔽'} Read More
-                      </span>
-                    </div>
-
-                    {expanded && (
-                      <div className={styles.expandedContent}>
-                        <p>
-                          Detailed analysis would go here... market performance, regional breakdown,
-                          customer segments, etc.
-                        </p>
+                  {msg.sender === 'bot' && msg.chart && (
+                    <div className={styles.card}>
+                      <div className={styles.summary}>
+                        <span>
+                          Revenue increased 23% QoQ with Premium products leading growth at 35%
+                        </span>
+                        <span
+                          className={styles.readMoreToggle}
+                          onClick={() => setExpanded(!expanded)}
+                        >
+                          {expanded ? '🔼' : '🔽'} Read More
+                        </span>
                       </div>
-                    )}
 
-                    <div className={styles.chartBox}>
-                      📊 Interactive chart visualization would appear here
-                    </div>
+                      {expanded && (
+                        <div className={styles.expandedContent}>
+                          <p>
+                            Detailed analysis would go here... market performance, regional breakdown,
+                            customer segments, etc.
+                          </p>
+                        </div>
+                      )}
 
-                    <div className={styles.actions}>
-                      <button>Add to Dashboard</button>
-                      <button>Export Result</button>
-                      <button>Customize</button>
+                      <div className={styles.chartBox}>
+                        📊 Interactive chart visualization would appear here
+                      </div>
+
+                      <div className={styles.actions}>
+                        <button>Add to Dashboard</button>
+                        <button>Export Result</button>
+                        <button>Customize</button>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+          
+        </div>
+
+        <Footer message={input} setMessage={setInput} onSend={sendMessage} />
       </div>
-
-      <Footer message={input} setMessage={setInput} onSend={sendMessage} />
     </>
   );
 };

@@ -5,18 +5,14 @@ import { ChatSubNav } from '../../components/chatSubNav/ChatSubNav'
 import ChatBot from '../../components/chatBot/ChatBot'
 import ChatSuggestions from '../../components/chatSuggestions/ChatSuggestions'
 import { Footer } from '../../components/footer/Footer'
-export const ChatPage = () => {
+export const ChatPage = ({isSidebarExpanded, setIsSidebarExpanded}) => {
   return (
      <div className={styles.appContainer}>
           <ChatNav />
           <div className={styles.stickySubnav}>
-            <ChatSubNav />
+            <ChatSubNav isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} />
           </div>
-          <div className={styles.content}>
-            <div style={{ height: '600px' }}>
-              <ChatBot/>
-            </div>
-          </div>
+          <ChatBot/>
         </div>
   )
 }

@@ -18,7 +18,7 @@ import { IoMenu } from "react-icons/io5";
 import { LuBrain } from "react-icons/lu";
 import styles from './ChatSubNav.module.css'
 
-export const ChatSubNav = () => {
+export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded}) => {
   return (
     <div className={styles.container}>
       
@@ -27,14 +27,15 @@ export const ChatSubNav = () => {
       </div>
       <div style={{  margin: '15px'}}>
         <Segmented
-          options={['Chat', 'Build', 'Data']}
+          // options={['Chat', 'Build', 'Data']}
+          options={['Chat']}
           defaultValue="Chat"
           style={{ background: '#f9f9f9',borderRadius: 5  }}
         />
 
       </div>
-      <div style={{  margin: '15px'}}>
-<LuBrain />
+      <div style={{  margin: '15px'}} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}>
+        <LuBrain />
       </div>
     </div>
   )
