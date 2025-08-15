@@ -1,9 +1,9 @@
 import { Button } from "antd";
-import React from 'react';
+import React from "react";
 
 export const ButtonComponent = ({
 	text,
-	variant = "filled",
+	variant = "filled", // filled | outlined | text | borderless
 	customColor,
 	icons = [],
 	iconPosition = "left",
@@ -14,29 +14,39 @@ export const ButtonComponent = ({
 	className = "",
 	onClick = () => {}
 }) => {
-
 	const isTextOnly = text && icons.length === 0;
 
+	// Map your variant prop to AntD's "type"
 	const variantType =
-	variant === "filled"
-		? "primary"
-		: variant === "outlined"
+		variant === "filled"
+			? "primary"
+			: variant === "outlined"
 			? "default"
-			: "text";
+			: "text"; // AntD doesn't have "borderless", so we handle style manually
 
+	// Base style
 	const baseStyle = {
 		borderRadius: "5px",
-		...(customColor &&
-		variant === "filled" && {
-			backgroundColor: customColor,
-			color: "#fff",
-			border: "none"
+		...(variant === "borderless" && {
+			border: "none",
+			background: "transparent",
+			color: customColor || "inherit"
 		}),
 		...(customColor &&
-		variant !== "filled" && {
-			color: customColor,
-			borderColor: customColor
-		}),
+			variant === "filled" && {
+				backgroundColor: customColor,
+				color: "#fff",
+				border: "none"
+			}),
+		...(customColor &&
+			variant === "outlined" && {
+				color: customColor,
+				borderColor: customColor
+			}),
+		...(customColor &&
+			variant === "text" && {
+				color: customColor
+			}),
 		...style
 	};
 
@@ -68,7 +78,7 @@ export const ButtonComponent = ({
 						alignItems: "center",
 						gap: "8px",
 						flexDirection:
-						iconPosition === "right" ? "row-reverse" : "row"
+							iconPosition === "right" ? "row-reverse" : "row"
 					}}
 				>
 					{renderIcons()}

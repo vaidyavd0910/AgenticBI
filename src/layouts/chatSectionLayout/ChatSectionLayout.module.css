@@ -1,4 +1,35 @@
 .mainAppContainer {
-	display: flex;
-	width: 100%;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Left Sidebar (fixed width) */
+.leftSidebar {
+  width: 70px; /* adjust to your static sidebar width */
+  background-color: #fff;
+  border-right: 1px solid #f0f0f0;
+}
+
+/* Middle Content Area */
+.mainContent {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #fafafa;
+}
+
+/* Right Sidebar */
+.rightSidebar {
+  background-color: #fff;
+  border-left: 1px solid #f0f0f0;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.rightSidebar.collapsed {
+  width: 0;
+}
+
+.rightSidebar.expanded {
+  width: 300px; /* adjust to expanded width */
 }
