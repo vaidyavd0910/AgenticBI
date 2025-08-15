@@ -1,10 +1,40 @@
 import React from "react";
-import './StaticSidebar.css'; 
+import styles from "./StaticSidebar.module.css"; // Import as module
+import { LogOut, MessageSquare, Plus, Settings } from "lucide-react";
+import { LuTrello } from "react-icons/lu";
 
 const StaticSidebar = () => {
   return (
-    <div className="sidebar">
-    
+    <div className={styles.sidebar}>
+        <div className={styles.upperContainer}>
+            <div className={styles.logoContainer}>
+               <div className={styles.tabContainer}>
+                    <div className={styles.icon}><LuTrello height={'60'}/></div>
+                    </div>   
+            </div>
+            <div>
+                <div className={styles.sidebarItem}>
+                    <div className={styles.tabContainer}>
+                    <div className={styles.icon}><Plus height={'15'}/></div>
+                    <span>New</span>
+                    </div>   
+                    <div className={styles.tabContainer}>
+                    <div className={styles.icon}><MessageSquare height={'15'}/></div>
+                    <span>Chat</span>
+                    </div>  <div className={styles.tabContainer}>
+                    <div className={styles.icon}><Settings height={'15'}/></div>
+                    <span>Setup</span>
+                    </div>   
+                </div>
+            </div>
+        </div>
+        <div className={styles.logoutContainer}>
+            <div className={styles.tabContainer}>
+                <div className={styles.icon}><LogOut height={'15'}/></div>
+                <span>Logout</span>
+            </div>
+
+        </div>
     </div>
   );
 };
