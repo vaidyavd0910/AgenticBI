@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Input, Dropdown, Menu } from 'antd';
 import { ReusableDropdown } from '../dropDown/ReusableDropdown';
 import styles from './ChatNav.module.css';
+import { Plus } from 'lucide-react';
 import {
   Database,
   Calendar,
@@ -12,6 +13,7 @@ import {
   Moon,
   Laptop
 } from 'lucide-react';
+import { ButtonComponent } from '../button/ButtonComponent';
 
 const { Title } = Typography;
 
@@ -89,11 +91,13 @@ export const ChatNav = () => {
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
-          <div className={styles.menuButton}>
+          {/* <div className={styles.menuButton}>
             <AlignJustify height={'15'} />
-          </div>
-
-          <div>
+          </div> */}
+<div className={styles.createBtn}>
+  <ButtonComponent text={'Create New'} variant={'borderless'} />
+</div>
+          {/* <div>
             <Input
               placeholder="Search analysis..."
               allowClear
@@ -104,7 +108,7 @@ export const ChatNav = () => {
                 borderRadius: 6,
               }}
             />
-          </div>
+          </div> */}
 
           <div>
             <Database height={'15'} color={'grey'} />

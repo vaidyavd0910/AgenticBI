@@ -24,10 +24,9 @@ const menuItems = (
 const { Title } = Typography;
 
 export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded}) => {
-  const [title, setTitle] = useState('Q4 Sales Performance Deep Dive');
+  const [title, setTitle] = useState('Analysis Session');
     const [isEditing, setIsEditing] = useState(false);
   
-
   const handleTitleEdit = () => {
     setIsEditing(true);
   };

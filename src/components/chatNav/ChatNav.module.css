@@ -64,3 +64,11 @@
 .monitorButton:hover{
     background: rgb(232, 232, 245);
 }
+.createBtn{
+    padding: 3px;
+}
+.createBtn:hover{
+    color: white;
+    background-color: #1677ff;
+    border-radius: 6px;
+}
