@@ -68,6 +68,7 @@ export const ButtonComponent = ({
 			style={baseStyle}
 			className={className}
 			onClick={onClick}
+			
 		>
 			{isTextOnly ? (
 				<span style={{ textAlign: "center" }}>{text}</span>

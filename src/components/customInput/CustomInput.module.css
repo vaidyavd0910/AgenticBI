@@ -6,8 +6,14 @@
    
 }
 .inputBox{
-border: none !important;
+    height: 30px !important;
+    border: none !important;
 }
+
+.inputBox:focus-within, .inputBox:focus {
+    height: 60px !important;
+}
+
 .overAll{
  border: 1px solid #f0f0f0;
     padding: 2px;

@@ -31,11 +31,11 @@ const ChatSuggestions = ({ setInput, sendMessage }) => {
       <Text type="secondary">Ask any question about your data in natural language</Text>
       <div className={styles.suggestionsGrid}>
         {suggestions.map((item, idx) => (
-  <TextCard
-    key={idx}
-    text={item}
-    onClick={() => handleClick(item)} 
-  />
+    <TextCard
+      key={idx}
+      text={item}
+      onClick={() => handleClick(item)} 
+    />
 ))}
       </div>
     </div>
