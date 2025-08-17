@@ -125,6 +125,7 @@ const ChatBot = () => {
         summary: response.summary,
         insights: response.insights,
         table: response.table,
+        graph: response.graph,
         contextMemory: response.context_memory,
         variablesDetected: response.Variables_Detected
       };
@@ -153,8 +154,11 @@ const ChatBot = () => {
                     <>{msg.text}</>
                   ) : (
                     <ChatResponseCard
-                      insights={chatMessageData?.insights}
+                      summary={msg?.summary}
+                      insights={msg?.insights}
                       question={chatMessageData?.question}
+                      chartData={msg?.graph}
+                      tableData={msg?.table}
                     />
                   )}
 

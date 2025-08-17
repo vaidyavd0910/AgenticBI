@@ -5,6 +5,8 @@
   margin-bottom: 1rem;
   background-color: white;
   flex-grow: auto;
+  max-height: 650px;
+  overflow-y: auto;
 }
 
 .cardHeader {
@@ -21,6 +23,13 @@
   cursor: pointer;
   font-size: 0.9rem;
   width: 30%;
+}
+
+.toggleBtnCOntainer {
+  padding: 0px 10px;
+  margin: 10px 0px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .chartPlaceholder {

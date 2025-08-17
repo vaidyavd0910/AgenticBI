@@ -94,9 +94,9 @@ export const ChatNav = () => {
           {/* <div className={styles.menuButton}>
             <AlignJustify height={'15'} />
           </div> */}
-<div className={styles.createBtn}>
-  <ButtonComponent text={'Create New'} variant={'borderless'} />
-</div>
+          <div className={styles.createBtn}>
+            <ButtonComponent text={'Create New'} variant={'borderless'} icons={[<Plus />]} />
+          </div>
           {/* <div>
             <Input
               placeholder="Search analysis..."
