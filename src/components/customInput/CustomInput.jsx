@@ -11,7 +11,7 @@ export const CustomInput = ({ placeholder, value, onChange, onSend }) => {
       <div className={styles.customInputWrapper}>
         <TextArea
           placeholder={placeholder}
-          autoSize
+          // autoSize
           className={styles.inputBox}
           value={value}
           onChange={(e) => onChange(e.target.value)}
