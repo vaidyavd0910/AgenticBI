@@ -49,3 +49,21 @@ border-radius: 5px;
     background: rgb(232, 232, 245);
     border-radius: 5px;
 }
+.rightSection{
+    display: flex;
+    align-items: center;
+    gap:2px
+}
+.icons{
+display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
+    padding: 5px;
+}
+.icons:hover{
+    background: rgb(232, 232, 245);
+    border-radius: 5px;
+    padding: 5px;
+}

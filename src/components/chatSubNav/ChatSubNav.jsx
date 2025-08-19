@@ -9,11 +9,12 @@ import {
   Segmented,
   Menu,
   Dropdown,
-  Input
+  Input,
+  Calendar
 } from 'antd';
-
+import bmw from '../../assets/bmw-logo.svg'
 import styles from './ChatSubNav.module.css'
-import { AlignJustify, AlignJustifyIcon, Bookmark, Brain, Check, Download, Ellipsis, Pen, RotateCw, Save, Share2, Share2Icon, X } from 'lucide-react';
+import { AlignJustify, AlignJustifyIcon, Bookmark, Brain, Calendar1, Check, Database, Download, Ellipsis, Lightbulb, Pen, RefreshCw, RotateCw, Save, Share2, Share2Icon, X } from 'lucide-react';
 const menuItems = (
   <Menu>
     <Menu.Item key="1"><Bookmark height={'15'} color={'gray'}/> Pin this Insight</Menu.Item>
@@ -85,7 +86,7 @@ export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded}) => {
       <div>
         
       </div>
-       <div>
+       {/* <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
                 <Button icon={<RotateCw height={'15'}/>}>Re-run Analysis</Button>
                 <Button icon={<Save height={'15'}/>}>Save</Button>
@@ -94,10 +95,38 @@ export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded}) => {
          <Ellipsis height={'15'}/>
         </div>
       </Dropdown>
+       <div style={{  margin: '15px'}} onClick={() =>'' } className={styles.refreshContainer}>
+        <RefreshCw  height={'15'}/>
+      </div>
        <div style={{  margin: '15px'}} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className={styles.brainIconContainer}>
         <Brain height={'15'}/>
       </div>
               </div>
+            </div> */}
+            <div className={styles.rightSection}>
+             
+               <div onClick={() =>'' } className={styles.icons}>
+        <RefreshCw  height={'15'}/>
+      </div>
+       <div className={styles.icons}>
+                <Save height={'15'}/>
+              </div>
+              <div className={styles.icons}>
+                 <Database height={'15'} />
+              </div>
+              <div className={styles.icons}>
+                 <Calendar1 height={'15'} />
+              </div>
+              <div className={styles.icons}>
+                <Lightbulb height={'15'} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}/>
+              </div>
+               <Dropdown overlay={menuItems} trigger={['click']} placement="bottomRight">
+                <div className={styles.icons}>
+                  <Ellipsis height={'15'}/>
+                </div>
+      </Dropdown>
+               <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+     
             </div>
      
     </div>

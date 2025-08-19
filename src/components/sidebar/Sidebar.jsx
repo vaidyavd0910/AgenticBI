@@ -49,7 +49,7 @@ export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 					))}
 					</ul>
 				</div>
-{/* 
+
 				<div className={styles.section}>
 					<h4 className={styles.sectionTitle}>Variables Detected</h4>
 					<div className={styles.tags}>
@@ -75,7 +75,7 @@ export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 
 				<div className={styles.section}>
 					<h4 className={styles.sectionTitle}>KPI Questions</h4>
-				</div> */}
+				</div>
 				</div>
 		</div>
 	)

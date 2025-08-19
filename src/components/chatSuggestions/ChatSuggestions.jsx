@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import styles from './ChatSuggestions.module.css';
 import { Sparkles } from 'lucide-react';
 import { TextCard } from '../textCard/TextCard';
+import bmw from '../../assets/bmw-logo.svg'
 
 const { Title, Text } = Typography;
 
@@ -24,6 +25,9 @@ const ChatSuggestions = ({ setInput, sendMessage }) => {
 
   return (
     <div className={styles.chatSuggestionContainer}>
+      <div className={styles.header}>
+            <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+      </div>
       <div className={styles.sparkel}>
         <Sparkles color={'#1890ff'}  height={'40'} width={'40'}/>
         </div>

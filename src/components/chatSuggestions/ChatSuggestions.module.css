@@ -30,3 +30,9 @@
 .suggestionBtn:hover{
   background-color:  #cbd5e1;
 }
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin: 20px;
+}

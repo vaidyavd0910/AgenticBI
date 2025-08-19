@@ -8,10 +8,8 @@ import { Footer } from '../../components/footer/Footer'
 export const ChatPage = ({isSidebarExpanded, setIsSidebarExpanded}) => {
   return (
      <div className={styles.appContainer}>
-          <ChatNav />
-          <div className={styles.stickySubnav}>
-            <ChatSubNav isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} />
-          </div>
+         
+            <div style={{padding: '5px'}}><ChatSubNav isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} /></div>
           <ChatBot/>
         </div>
   )
