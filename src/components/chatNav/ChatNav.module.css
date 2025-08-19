@@ -72,3 +72,9 @@
     background-color: #1677ff;
     border-radius: 6px;
 }
+.rightSection{
+    display: flex;align-items: center;
+    justify-content: center;
+    gap:10px;
+    
+}

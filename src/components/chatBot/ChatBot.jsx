@@ -162,69 +162,7 @@ const ChatBot = () => {
                     />
                   )}
 
-                   {msg.summary && (
-                        <div className={styles.summary}>
-                         {msg.summary}
-                          <span
-                            className={styles.readMoreToggle}
-                            onClick={() => setExpanded(!expanded)}
-                          >
-                            {expanded ? '🔼' : '🔽'} Read More
-                          </span>
-                        </div>
-                      )}
-
-                        {/* Table */}
-                      {msg.table && (
-                        <div style={{ marginTop: '10px' }}>
-                          <h4>Data Table</h4>
-                          <Table
-                            columns={msg.table.columns}
-                            dataSource={msg.table.rows.map((r, i) => ({
-                              key: i,
-                              ...r
-                            }))}
-                            pagination={false}
-                            size="small"
-                          />
-                        </div>
-                      )}
-
-
-                      {/* Insights */}
-                      {expanded && msg.insights && (
-                        <div className={styles.expandedContent}>
-                          <pre style={{ whiteSpace: 'pre-wrap' }}>
-                            {msg.insights}
-                          </pre>
-                        </div>
-                      )}
-
-                      {/* Context Memory */}
-                      {msg.contextMemory && (
-                        <div style={{ marginTop: '10px' }}>
-                          <h4>Context Memory</h4>
-                          {msg.contextMemory.map((item, idx) => (
-                            <div key={idx}>
-                              {Object.entries(item).map(([k, v]) => (
-                                <div key={k}><strong>{k}:</strong> {v}</div>
-                              ))}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Variables Detected */}
-                      {msg.variablesDetected && (
-                        <div style={{ marginTop: '10px' }}>
-                          <h4>Variables Detected</h4>
-                          <ul>
-                            {msg.variablesDetected.map((v, idx) => (
-                              <li key={idx}>{v}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                 
                     
                 </div>
               ))}

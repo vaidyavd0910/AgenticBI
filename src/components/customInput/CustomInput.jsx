@@ -27,5 +27,6 @@ export const CustomInput = ({ placeholder, value, onChange, onSend }) => {
         </button>
       </div>
     </div>
+    
   );
 };

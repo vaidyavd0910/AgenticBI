@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import styles from './Sidebar.module.css'
 import { ExpandCollapseSection } from '../expandCollapse/ExpandCollapseSection';
 import { addQuestion } from '../../service/Api';
+import { Typography } from 'antd';
+import { X } from 'lucide-react';
 
-
+const { Title } = Typography;
 export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 
 	
@@ -31,7 +33,7 @@ export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 			<div className={styles.container}>
 				<div className={styles.header}>
 					<span>Context & Insights</span>
-					<button className={styles.closeBtn}>×</button>
+					<button className={styles.closeBtn} onClick={() => setIsSidebarExpanded(false)}><X height={15}/></button>
 				</div>
 
 				<div className={styles.section}>
@@ -47,7 +49,7 @@ export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 					))}
 					</ul>
 				</div>
-
+{/* 
 				<div className={styles.section}>
 					<h4 className={styles.sectionTitle}>Variables Detected</h4>
 					<div className={styles.tags}>
@@ -73,7 +75,7 @@ export const Sidebar = ({isSidebarExpanded, setIsSidebarExpanded}) => {
 
 				<div className={styles.section}>
 					<h4 className={styles.sectionTitle}>KPI Questions</h4>
-				</div>
+				</div> */}
 				</div>
 		</div>
 	)

@@ -7,6 +7,9 @@
   flex-grow: auto;
   max-height: 650px;
   overflow-y: auto;
+   width: 600px;        /* set a fixed width */
+  min-width: 600px;    /* prevent shrinking */
+  max-width: 600px;
 }
 
 .cardHeader {
@@ -14,34 +17,42 @@
   justify-content: space-between;
   align-items: center;
 }
-
+.cardTitle{
+  padding: 3px;
+}
 .readToggleBtn {
   background: none;
   border: none;
   padding: 0;
-  color: #0d6efd;
+  /* color: #0d6efd; */
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
+  font-weight: bold;
   width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .toggleBtnCOntainer {
   padding: 0px 10px;
-  margin: 10px 0px;
+  margin: 0px 25px 0px;
   display: flex;
   justify-content: flex-end;
+
 }
 
 .chartPlaceholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #dee2e6;
+  /* border: 1px solid #dee2e6; */
   margin-top: 1rem;
   margin-bottom: 1rem;
   min-height: 200px;
   min-width: 500px;
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
+  background-color: transparent;
   border-radius: 6px;
   text-align: center;
   color: #6c757d;
@@ -52,12 +63,14 @@
   padding: 1rem 2rem;
   background-color: #f0f4ff;
   border-radius: 6px;
+  margin-top: 15px;
 }
 
 .insightsTitle {
-	font-size: large;
+	font-size: medium;
   font-weight: bold;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  margin-top: 8px;
 }
 
 .buttonGroup {
@@ -65,3 +78,14 @@
   gap: 0.5rem;
   margin-top: 1rem;
 }
+.toggleBtn{
+   cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.toggleBtn:hover{
+   background: rgb(232, 232, 245);
+};

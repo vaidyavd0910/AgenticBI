@@ -14,6 +14,7 @@ import {
   Laptop
 } from 'lucide-react';
 import { ButtonComponent } from '../button/ButtonComponent';
+import bmw from '../../assets/bmw-logo.svg'
 
 const { Title } = Typography;
 
@@ -95,7 +96,7 @@ export const ChatNav = () => {
             <AlignJustify height={'15'} />
           </div> */}
           <div className={styles.createBtn}>
-            <ButtonComponent text={'Create New'} variant={'borderless'} icons={[<Plus />]} />
+            <ButtonComponent text={'Create New'} variant={'borderless'} icons={[<Plus height={15}/>]} />
           </div>
           {/* <div>
             <Input
@@ -135,12 +136,16 @@ export const ChatNav = () => {
           </div>
         </div>
       </div>
-
-      <Dropdown overlay={themeMenu} trigger={['click']} placement="bottomRight">
+<div className={styles.rightSection}>
+    <Dropdown overlay={themeMenu} trigger={['click']} placement="bottomRight">
         <div className={styles.monitorButton} style={{ cursor: 'pointer', padding:"5px" }}>
           <Monitor height={'15'} />
         </div>
       </Dropdown>
+      <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+
+</div>
+    
     </div>
   );
 };

@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .brainIconContainer:hover{
 background: rgb(232, 232, 245);
@@ -21,7 +22,13 @@ border-radius: 5px;
     padding: 5px;
     margin: 5px;
 }
-
+.editButton{
+     padding: 6px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
 .checkButton{
     cursor: pointer;
     padding: 5px 7px;
@@ -37,4 +44,8 @@ border-radius: 5px;
 }
 .crossButton:hover{
     background: rgb(232, 232, 245);
+}
+.editButton:hover{
+    background: rgb(232, 232, 245);
+    border-radius: 5px;
 }

@@ -2,28 +2,30 @@ import React from "react";
 import styles from "./StaticSidebar.module.css"; // Import as module
 import { LogOut, MessageSquare, Plus, Settings } from "lucide-react";
 import { LuTrello } from "react-icons/lu";
+import logo from '../../assets/Logo.svg'
 
 const StaticSidebar = () => {
   return (
     <div className={styles.sidebar}>
         <div className={styles.upperContainer}>
             <div className={styles.logoContainer}>
-               <div className={styles.tabContainer}>
+                <img src={logo} alt="Logo" className={styles.logo} />
+               {/* <div className={styles.tabContainer}>
                     <div className={styles.icon}><LuTrello height={'60'}/></div>
-                    </div>   
+                    </div>    */}
             </div>
             <div>
                 <div className={styles.sidebarItem}>
                     <div className={styles.tabContainer}>
                     <div className={styles.icon}><Plus height={'15'}/></div>
-                    <span>New</span>
+                    <span className={styles.textInStatic}>New</span>
                     </div>   
                     <div className={styles.tabContainer}>
                     <div className={styles.icon}><MessageSquare height={'15'}/></div>
-                    <span>Chat</span>
+                    <span className={styles.textInStatic}>Chat</span>
                     </div>  <div className={styles.tabContainer}>
                     <div className={styles.icon}><Settings height={'15'}/></div>
-                    <span>Setup</span>
+                    <span className={styles.textInStatic}>Setup</span>
                     </div>   
                 </div>
             </div>
@@ -31,7 +33,7 @@ const StaticSidebar = () => {
         <div className={styles.logoutContainer}>
             <div className={styles.tabContainer}>
                 <div className={styles.icon}><LogOut height={'15'}/></div>
-                <span>Logout</span>
+                <span className={styles.textInStatic}>Logout</span>
             </div>
 
         </div>
