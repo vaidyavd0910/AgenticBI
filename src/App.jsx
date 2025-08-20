@@ -12,6 +12,7 @@ import { NewAnalysis } from './pages/newAnalysis/NewAnalysis';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ChatAnalysis } from './pages/chatAnalysis/ChatAnalysis';
+import { LandingPage } from './pages/landingPage/LandingPage';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/chatPage" element={<ChatPage isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} />} />
           <Route path="/chatAnalysis" element={<ChatAnalysis />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />
+          <Route path="/landing" element={<LandingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
