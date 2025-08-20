@@ -18,7 +18,7 @@ const StaticSidebar = () => {
         <div>
           <div className={styles.sidebarItem}>
             <div className={styles.tabContainer}
-             onClick={() => navigate("/chatSuggestions")}
+             onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}>
               <div className={styles.icon}><Plus height={'15'} /></div>
               <span className={styles.textInStatic}>New</span>
