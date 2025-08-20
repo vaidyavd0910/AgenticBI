@@ -124,11 +124,11 @@ export const ChatResponseCard = ({
         </div>
       )}
 
-      <div className={styles.buttonGroup}>
+      {/* <div className={styles.buttonGroup}>
         <ButtonComponent text="Add to Dashboard" variant="outlined" />
         <ButtonComponent text="Export Result" variant="outlined" />
         <ButtonComponent text="Customize" variant="outlined" />
-      </div>
+      </div> */}
     </div>
   );
 };

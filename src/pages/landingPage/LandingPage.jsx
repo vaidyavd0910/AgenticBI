@@ -35,7 +35,7 @@ const quickFilters = [
   { label: "Suggested", type: "suggested" },
   { label: "Popular", type: "popular" },
 ];
-export const LandingPage = () => {
+export const LandingPage = ({sendMessage}) => {
      const [value, setValue] = useState('');
       const [activeFilter, setActiveFilter] = useState("KPI");
   return (
@@ -77,7 +77,7 @@ export const LandingPage = () => {
                                     <div>
                                        <Mic height={15}/>
                                     </div>
-                                    <div>
+                                    <div onClick={()=> sendMessage(value)} >
                                         <Send height={15}/>
                                     </div>
                             </div>  
