@@ -1,13 +1,21 @@
 .mainContainer{
     padding: 15px;
 }
+
 .header{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .rightContainer{
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.analysisCardContainer {
+    margin: 10px 0px;
+    max-height: calc(100vh - 90px);
+    overflow-y: scroll;
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { ReusableDropdown } from '../../components/dropDown/ReusableDropdown';
 import styles from './ChatAnalysis.module.css';
 import bmw from '../../assets/bmw-logo.svg'
+import { chatAnalysisData } from '../../utils/staticData';
+import { ChatAnalysisCard } from '../../components/chatAnalysisCard/ChatAnalysisCard';
 const DropDown = [
   { value: 'opt1', label: 'Most Recent' },
   { value: 'opt2', label: 'Oldest First' },
@@ -31,6 +33,11 @@ export const ChatAnalysis = () => {
                       </div>
                         <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
         </div>
+    </div>
+    <div className={styles.analysisCardContainer}>
+      {chatAnalysisData.map((card) => (
+        <ChatAnalysisCard key={card.id} cardData={card} />
+      ))}
     </div>
     </div>
   )
