@@ -24,7 +24,7 @@ const menuItems = (
 );
 const { Title } = Typography;
 
-export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded}) => {
+export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded, sendMessage}) => {
   const [title, setTitle] = useState('Analysis Session');
     const [isEditing, setIsEditing] = useState(false);
   
@@ -105,9 +105,9 @@ export const ChatSubNav = ({isSidebarExpanded, setIsSidebarExpanded}) => {
             </div> */}
             <div className={styles.rightSection}>
              
-               <div onClick={() =>'' } className={styles.icons}>
-        <RefreshCw  height={'15'}/>
-      </div>
+               <div onClick={() =>sendMessage("", true)} className={styles.icons}>
+                 <RefreshCw  height={'15'}/>
+              </div>
        <div className={styles.icons}>
                 <Save height={'15'}/>
               </div>

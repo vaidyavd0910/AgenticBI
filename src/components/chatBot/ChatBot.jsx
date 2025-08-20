@@ -6,8 +6,8 @@ import { useLocation } from 'react-router-dom';
 import ChatSuggestions from '../chatSuggestions/ChatSuggestions';
 import { ChatResponseCard } from '../chatResponseCard/ChatResponseCard';
 import { chatMessageData } from '../../utils/staticData';
-import { fetchQueryResult } from '../../service/Api';
-import { Table } from 'antd';
+import { Spin, Table } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 // const response ={
 //   "summary": "Demand is trending upward with regional variance and product-specific spikes.",
@@ -102,76 +102,54 @@ import { Table } from 'antd';
 //     "Region"
 //   ]
 // }
-const ChatBot = () => {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [expanded, setExpanded] = useState(false);
+const ChatBot = ({searchInput, setSearchInput, messages, sendMessage}) => {
 
   const location = useLocation();
   const fromNewAnalysis = location.state?.fromNewAnalysis;
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-
-    const newMessages = [...messages, { sender: 'user', text: input }];
-    setMessages(newMessages);
-    setInput('');
-
-    try {
-      const response = await fetchQueryResult(input);
-      const botResponse = {
-        sender: 'bot',
-        chart: response.data?.showChart || false,
-        summary: response.summary,
-        insights: response.insights,
-        table: response.table,
-        graph: response.graph,
-        contextMemory: response.context_memory,
-        variablesDetected: response.Variables_Detected
-      };
-
-      setMessages([...newMessages, botResponse]);
-    } catch (err) {
-      console.error("API Error:", err);
-      setMessages([...newMessages, { sender: 'bot', text: 'Server error' }]);
-    }
-  };
-
   return (
     <>
       <div className={styles.chatSectionParent}>
-        <div className={styles.chatContainer}>
-          {fromNewAnalysis && messages.length === 0 ? (
-            <ChatSuggestions setInput={setInput} sendMessage={sendMessage} />
-          ) : (
-            <div className={styles.chatHistory}>
-              {messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`${styles.message} ${styles[msg.sender]}`}
-                >
-                  {index % 2 === 0 ? (
-                    <>{msg.text}</>
-                  ) : (
-                    <ChatResponseCard
-                      summary={msg?.summary}
-                      insights={msg?.insights}
-                      question={chatMessageData?.question}
-                      chartData={msg?.graph}
-                      tableData={msg?.table}
-                    />
-                  )}
+        <div className={styles.scrollableContainer}>
+          <div className={styles.chatContainer}>
+            {fromNewAnalysis && messages.length === 0 ? (
+              <ChatSuggestions setInput={setSearchInput} sendMessage={() => sendMessage(searchInput)} />
+            ) : (
+              <div className={styles.chatHistory}>
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.message} ${styles[msg.sender]}`}
+                  >
+                    {msg.sender === "user" ? (
+                      <>{msg.text}</>
+                    )  : msg.sender == "loader" ? (
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", borderRadius: "10px", padding: '5px 1rem', background:"white", minWidth: "400px"  }}>
+                        <Spin indicator={<LoadingOutlined spin />} size="small" style={{margin: "0px 3px"}} />
+                        <span>Analyzing your data...</span>
+                      </div>
+                    )
+                      : (
+                      <ChatResponseCard
+                        summary={msg?.summary}
+                        insights={msg?.insights}
+                        question={chatMessageData?.question}
+                        chartData={msg?.graph}
+                        tableData={msg?.table}
+                      />
+                    )}
 
-                 
-                    
-                </div>
-              ))}
-            </div>
-          )}
-          
+                  
+                      
+                  </div>
+                ))}
+              </div>
+            )}
+            
+          </div>
         </div>
 
-        <Footer message={input} setMessage={setInput} onSend={sendMessage} />
+        <Footer message={searchInput} setMessage={setSearchInput} onSend={() => sendMessage(searchInput)} />
       </div>
     </>
   );

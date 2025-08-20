@@ -3,6 +3,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-grow: 1;
+}
+
+.scrollableContainer {
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
 }
 
 .chatContainer {
@@ -11,10 +17,8 @@
   border-radius: 8px;
   padding: 10px;
   font-family: Arial;
-  max-height: calc(100% - 100px);
-  overflow-y: auto;
-  margin: 5px;
   
+  margin: 5px;
 }
 
 
@@ -29,6 +33,7 @@
   padding: 10px;
   border-radius: 6px;
   max-width: 60%;
+  min-width: 50%;
 }
 
 .user {
