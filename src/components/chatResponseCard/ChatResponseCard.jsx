@@ -86,10 +86,11 @@ export const ChatResponseCard = ({
     <YAxis 
       tick={{ fontSize: 10 }}   // 👈 smaller font for Y axis
     />
-    <Tooltip />
-    <Legend />
-    <Line type="monotone" dataKey="product1" stroke="#82ca9d" />
-    <Line type="monotone" dataKey="product2" stroke="#be4c26ff" />
+   <Tooltip contentStyle={{ fontSize: '12px' }} />
+  <Legend wrapperStyle={{ fontSize: '12px' }} />
+
+  <Line type="monotone" dataKey="product1" stroke="#82ca9d" />
+  <Line type="monotone" dataKey="product2" stroke="#be4c26ff" />
   </LineChart>
 </div>
 

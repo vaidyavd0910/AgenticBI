@@ -177,7 +177,7 @@ border: none;
 
 .title {
   font-size: 25px;
-  font-weight: bold;
+  font-weight: 500;
   color: #1f2937; /* dark gray */
   margin: 8px 0;
 }

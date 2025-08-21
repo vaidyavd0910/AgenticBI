@@ -21,7 +21,7 @@
 .overAll{
  border: 1px solid #f0f0f0;
      width: 70%;
-    border-radius: 5px;
+    border-radius: 9px;
 }
 .overAll:focus{
     border-color: #3b82f6 !important;
@@ -57,7 +57,8 @@
   flex: 1;
   border: none !important;
   box-shadow: none !important;
-  resize: none;
+  resize: none !important;
+  
 }
 
 
