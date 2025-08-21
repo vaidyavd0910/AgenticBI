@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   DatePicker,
@@ -12,11 +12,13 @@ import {
   Calendar
 } from "antd";
 import bmw from "../../assets/bmw-logo.svg";
+import { Tooltip } from "antd"; // ✅ import Tooltip
 import styles from "./ChatSubNav.module.css";
 import {
   Bookmark,
   Brain,
   Calendar1,
+  ChartColumnIncreasing,
   Check,
   Database,
   Download,
@@ -26,8 +28,11 @@ import {
   RefreshCw,
   Save,
   Share2Icon,
+  TrendingUp,
   X,
 } from "lucide-react";
+import { addQuestion } from "../../service/Api";
+import { ExpandCollapseSection } from "../expandCollapse/ExpandCollapseSection";
 
 const menuItems = (
   <Menu>
@@ -79,6 +84,34 @@ const timeMenu = (
 export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessage }) => {
   const [title, setTitle] = useState("Analysis Session");
   const [isEditing, setIsEditing] = useState(false);
+  const [open, setOpen] = useState(false);
+    const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+    const [popularQuestions, setPopularQuestions] = useState([]);
+    const [kpiQuestions, setKpiQuestions] = useState([]);
+  
+    const contextMemory = [
+      { label: "Time Period:", value: "Last 30 days" },
+      { label: "Dataset:", value: "Sales Dataset" },
+      { label: "Region Filter:", value: "North America" },
+      { label: "Product Category:", value: "All Categories" },
+    ];
+  
+    const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
+  
+    useEffect(() => {
+      const getQuestions = async () => {
+        try {
+          const data = await addQuestion();
+          setSuggestedQuestions(data.suggestion_questions || []);
+          setPopularQuestions(data.Popular_Question || []);
+          setKpiQuestions(data.KPI_Question || []);
+        } catch (error) {
+          console.error("Failed to fetch questions:", error);
+        }
+      };
+  
+      getQuestions();
+    }, []); 
 
   const handleTitleEdit = () => setIsEditing(true);
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -123,35 +156,136 @@ export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessag
         )}
       </div>
 
-      <div className={styles.rightSection}>
-        <div onClick={() => sendMessage("", true)} className={styles.icons}>
-          <RefreshCw height={"15"} />
-        </div>
-        <div className={styles.icons}>
-          <Save height={"15"} />
-        </div>
+   <div className={styles.rightSection}>
+  <Tooltip title="Refresh Analysis">
+    <div onClick={() => sendMessage("", true)} className={styles.icons}>
+      <RefreshCw height={"15"} />
+    </div>
+  </Tooltip>
+
+  <Tooltip title="Save Session">
+    <div className={styles.icons}>
+      <Save height={"15"} />
+    </div>
+  </Tooltip>
+
+  <Tooltip title="Select Dataset">
+    <div className={styles.icons}>
+      <Dropdown overlay={datasetMenu} trigger={["click"]} placement="topLeft">
+        <Database height={15} style={{ cursor: "pointer" }} />
+      </Dropdown>
+    </div>
+  </Tooltip>
+
+  <Tooltip title="Select Time Range">
+    <div className={styles.icons}>
+      <Dropdown overlay={timeMenu} trigger={["click"]} placement="topLeft">
+        <Calendar1 height={15} style={{ cursor: "pointer" }} />
+      </Dropdown>
+    </div>
+  </Tooltip>
+
+  {/* <Tooltip title={isSidebarExpanded ? "Hide Insights" : "Show Insights"}>
+    <div
+      className={styles.icons}
+      onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+    >
+      <Lightbulb height={"15"} />
+    </div>
+  </Tooltip> */}
+    <Tooltip >
+    <div
+      className={styles.icons}
+      onClick={() => setOpen(!open)}
+    >
+      <Lightbulb height={"15"} />
+    </div>
+  </Tooltip>
+
+  <Tooltip title="More Options">
+    <Dropdown overlay={menuItems} trigger={["click"]} placement="bottomRight">
       <div className={styles.icons}>
-        <Dropdown overlay={datasetMenu} trigger={['click']} placement="topLeft">
-          <Database height={15} style={{ cursor: "pointer" }} />
-        </Dropdown>
+        <Ellipsis height={"15"} />
       </div>
-        <div className={styles.icons}>
-          {/* <Calendar1 height={"15"} /> */}
-          <Dropdown overlay={timeMenu} trigger={['click']} placement="topLeft">
-           <Calendar1 height={15} style={{ cursor: "pointer" }} />
-        </Dropdown>
-        </div>
-        <div className={styles.icons} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}>
-          <Lightbulb height={"15"} />
-        </div>
-        <Dropdown overlay={menuItems} trigger={["click"]} placement="bottomRight">
-          <div className={styles.icons}>
-            <Ellipsis height={"15"} />
-          </div>
-        </Dropdown>
-        <div className={styles.bmwLogo}>
+    </Dropdown>
+  </Tooltip>
+
+  <Tooltip title="BMW" >
+    <div className={styles.bmwLogo}>
+      <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
+    </div>
+  </Tooltip>
+{/* </div> */}
+        {/* <div className={styles.bmwLogo}>
           <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
-        </div>
+        </div> */}
+         <div className={styles.wrapper}>
+      {/* Bulb Button */}
+      {/* <button
+        className={styles.bulbButton}
+        onClick={() => setOpen(!open)}
+      >
+        💡
+      </button> */}
+
+      {/* Context & Insights Panel */}
+   {open && (
+  <div className={styles.panel}>
+    <div className={styles.header}>
+             <span>Context & Insights</span>
+           </div>
+           <div className={styles.section}>
+                     <h4 className={styles.sectionTitle}>Context Memory</h4>
+                     <ul className={styles.list}>
+                       {contextMemory.map((item, idx) => (
+                         <li key={idx} className={styles.listItem}>
+                           {item.label} <strong>{item.value}</strong>
+                         </li>
+                       ))}
+                     </ul>
+                   </div>
+                      <div className={styles.section}>
+                             <h4 className={styles.sectionTitle}>Variables Detected</h4>
+                             <div className={styles.tags}>
+                               {variables.map((variable, idx) => (
+                                 <span key={idx} className={styles.tag}>
+                                   {variable}
+                                 </span>
+                               ))}
+                             </div>
+                           </div>
+                     <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><Lightbulb height={15}/>Suggested Questions</h4>}>
+                             {suggestedQuestions.map((q, idx) => (
+                               <div key={idx} className={styles.questionItem}>
+                                 {q}
+                               </div>
+                             ))}
+                           </ExpandCollapseSection>
+                   
+                           {/* <div className={styles.section}> */}
+                             <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><TrendingUp height={15} />Popular Questions</h4>}>
+                             {popularQuestions.map((q, idx) => (
+                               <div key={idx} className={styles.questionItem}>
+                                 {q}
+                               </div>
+                             ))}
+                        </ExpandCollapseSection>
+                   
+                           {/* </div> */}
+                   
+                           {/* <div className={styles.section}> */}
+                             <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><ChartColumnIncreasing height={15}/>KPI Questions</h4>}>
+                             {kpiQuestions.map((q, idx) => (
+                               <div key={idx} className={styles.questionItem}>
+                                 {q}
+                               </div>
+                             ))}
+                        </ExpandCollapseSection>
+  </div>
+)}
+
+    </div>
+  
       </div>
     </div>
   );

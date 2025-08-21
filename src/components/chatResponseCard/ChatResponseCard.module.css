@@ -4,6 +4,7 @@
   padding: 1rem;
   margin-bottom: 1rem;
   background-color: white;
+  border: 1px solid  #ecebeb;;
   flex-grow: auto;
   max-height: 650px;
   overflow-y: auto;

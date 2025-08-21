@@ -15,7 +15,6 @@
 .mainContent {
   flex: 1;
   overflow-y: auto;
-  background-color: #fafafa;
 }
 
 /* Right Sidebar */
