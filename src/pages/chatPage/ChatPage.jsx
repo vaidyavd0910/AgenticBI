@@ -5,20 +5,15 @@ import { ChatSubNav } from '../../components/chatSubNav/ChatSubNav'
 import ChatBot from '../../components/chatBot/ChatBot'
 import ChatSuggestions from '../../components/chatSuggestions/ChatSuggestions'
 import { Footer } from '../../components/footer/Footer'
-export const ChatPage = () => {
+export const ChatPage = ({isSidebarExpanded, setIsSidebarExpanded, messages, setMessages, searchInput, setSearchInput, sendMessage,setValue , value}) => {
+
   return (
      <div className={styles.appContainer}>
-          <ChatNav />
-          <div className={styles.stickySubnav}>
-            <ChatSubNav />
-          </div>
-          <div className={styles.content}>
-            <div style={{ height: '500px' }}>
-              <ChatBot/>
+         
+            <div style={{marginLeft : '15px',marginRight: '15px'}}>
+              <ChatSubNav isSidebarExpanded={isSidebarExpanded} setSearchInput={setSearchInput} setIsSidebarExpanded={setIsSidebarExpanded} sendMessage={sendMessage} setValue={setValue} value={value} setMessages={setMessages}/>
             </div>
-          </div>
-          <ChatSuggestions/>
-          <Footer/>
+              <ChatBot searchInput={searchInput} setSearchInput={setSearchInput} messages={messages} sendMessage={sendMessage}/>
         </div>
   )
 }

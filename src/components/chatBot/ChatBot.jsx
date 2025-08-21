@@ -1,84 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import styles from './ChatBot.module.css'
-import { Button } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
-const ChatBot = () => {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [expanded, setExpanded] = useState(false);
+import styles from './ChatBot.module.css';
+import { Footer } from '../footer/Footer';
+import { useLocation } from 'react-router-dom';
+import ChatSuggestions from '../chatSuggestions/ChatSuggestions';
+import { ChatResponseCard } from '../chatResponseCard/ChatResponseCard';
+import { chatMessageData } from '../../utils/staticData';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
+const ChatBot = ({ searchInput, setSearchInput, messages, sendMessage }) => {
+  const location = useLocation();
+  const fromNewAnalysis = location.state?.fromNewAnalysis;
 
-    const newMessages = [...messages, { sender: 'user', text: input }];
-    setMessages(newMessages);
-    setInput('');
+  // 👇 Ref for auto-scrolling
+  const messagesEndRef = useRef(null);
 
-    try {
-      const response = await axios.post('http://localhost:5000/chat', {
-        message: input,
-      });
-
-      setMessages([...newMessages, { sender: 'bot', text: response.data.reply }]);
-    } catch (err) {
-      setMessages([...newMessages, { sender: 'bot', text: 'Server error' }]);
+  // 👇 Scroll to bottom whenever messages update
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, [messages]);
 
   return (
-    <div className={styles.chatContainer}>
-      <div className={styles.chatHistory}>
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`${styles.message} ${styles[msg.sender]}`}
-          >
-            {msg.text}
-               {/* <div className={styles.card}>
-        <div className={styles.summary}>
-          <span>
-            Revenue increased 23% QoQ with Premium products leading growth at 35%
-          </span>
-          <span className={styles.readMoreToggle} onClick={() => setExpanded(!expanded)}>
-            {expanded ? <UpOutlined /> : <DownOutlined />} Read More
-          </span>
-        </div>
+    <>
+      <div className={styles.chatSectionParent}>
+        <div className={styles.scrollableContainer}>
+          <div className={styles.chatContainer}>
+            {fromNewAnalysis && messages.length === 0 ? (
+              <ChatSuggestions
+                setInput={setSearchInput}
+                sendMessage={() => sendMessage(searchInput)}
+              />
+            ) : (
+              <div className={styles.chatHistory}>
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.message} ${styles[msg.sender]}`}
+                  >
+                    {msg.sender === 'user' ? (
+                      <>{msg.text}</>
+                    ) : msg.sender === 'loader' ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          borderRadius: '10px',
+                          padding: '5px 1rem',
+                          background: 'white',
+                          minWidth: '400px',
+                        }}
+                      >
+                        <Spin
+                          indicator={<LoadingOutlined spin />}
+                          size="small"
+                          style={{ margin: '0px 3px' }}
+                        />
+                        <span>Analyzing your data...</span>
+                      </div>
+                    ) : (
+                      <ChatResponseCard
+                        summary={msg?.summary}
+                        insights={msg?.insights}
+                        question={chatMessageData?.question}
+                        chartData={msg?.graph}
+                        tableData={msg?.table}
+                      />
+                    )}
+                  </div>
+                ))}
 
-        {expanded && (
-          <div className={styles.expandedContent}>
-            <p>
-              Detailed analysis would go here... market performance, regional breakdown,
-              customer segments, etc.
-            </p>
+                {/* 👇 Always keep this div at the bottom */}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
           </div>
-        )}
-
-        <div className={styles.chartBox}>
-          📊 Interactive chart visualization would appear here
         </div>
 
-        <div className={styles.actions}>
-          <Button>Add to Dashboard</Button>
-          <Button>Export Result</Button>
-          <Button>Customize</Button>
-        </div>
-      </div> */}
-          </div>
-        ))}
-      </div>
-
-      <div className={styles.inputSection}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Type your message..."
+        <Footer
+          message={searchInput}
+          setMessage={setSearchInput}
+          onSend={() => sendMessage(searchInput)}
         />
-        <button onClick={sendMessage}>Send</button>
       </div>
-    </div>
+    </>
   );
 };
 

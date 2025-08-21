@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './ChatSuggestions.module.css';
+import { Sparkles } from 'lucide-react';
+import { TextCard } from '../textCard/TextCard';
+import bmw from '../../assets/bmw-logo.svg'
 
 const { Title, Text } = Typography;
 
@@ -14,18 +17,30 @@ const suggestions = [
   "Show me regional performance breakdown"
 ];
 
-const ChatSuggestions = () => {
+const ChatSuggestions = ({ setInput, sendMessage }) => {
+  const handleClick = (text) => {
+    setInput(text);
+    // sendMessage && sendMessage(text);
+  };
+
   return (
     <div className={styles.chatSuggestionContainer}>
-      <PlusOutlined className={styles.icon} />
+      <div className={styles.header}>
+            <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+      </div>
+      <div className={styles.sparkel}>
+        <Sparkles color={'#1890ff'}  height={'40'} width={'40'}/>
+        </div>
       <Title level={4}>Start your analysis</Title>
       <Text type="secondary">Ask any question about your data in natural language</Text>
       <div className={styles.suggestionsGrid}>
         {suggestions.map((item, idx) => (
-          <Button key={idx} className={styles.suggestionBtn} type="default">
-            {item}
-          </Button>
-        ))}
+    <TextCard
+      key={idx}
+      text={item}
+      onClick={() => handleClick(item)} 
+    />
+))}
       </div>
     </div>
   );

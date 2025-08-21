@@ -1,0 +1,134 @@
+.cardContainer {
+  border-radius: 10px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  border: 1px solid  #ecebeb;;
+  flex-grow: auto;
+  max-height: 650px;
+  overflow-y: auto;
+   width: 600px;        /* set a fixed width */
+  min-width: 600px;    /* prevent shrinking */
+  max-width: 600px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cardTitle{
+  padding: 3px;
+  font-size: 13px;
+}
+.readToggleBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  /* color: #0d6efd; */
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: bold;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggleBtnCOntainer {
+  padding: 0px 10px;
+  margin: 0px 25px 0px;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.chartPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid #dee2e6; */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  min-height: 200px;
+  min-width: 500px;
+  /* background-color: #f8f9fa; */
+  background-color: transparent;
+  border-radius: 6px;
+  text-align: center;
+  color: #6c757d;
+  flex-direction: column;
+}
+
+.insightsBox {
+  padding: 1rem 2rem;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.insightsTitle {
+	font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  margin-top: 8px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.toggleBtn{
+   cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.toggleBtn:hover{
+   background: rgb(232, 232, 245);
+};
+.insightsList {
+  font-size: 0.5rem; /* smaller than normal text */
+  line-height: 1.4;
+  margin-left: 1rem;
+}
+
+.insightsList li strong {
+  font-weight: bold; /* keep key bold but not too heavy */
+  font-size: 12px;
+}
+.insightVlues{
+  font-size: 10px;
+}
+.recommendationsList {
+  font-size: 12px;       /* smaller font */
+  margin-top: 4px;
+  padding-left: 18px;    /* keeps indentation for list */
+  line-height: 1.4;      /* improves readability */
+  color: #333;           /* softer black */
+}
+
+.recommendationsList li {
+  margin-bottom: 4px;    /* little spacing between items */
+}
+.insightsList {
+  font-size: 12px;       /* smaller font size */
+  margin-top: 4px;
+  padding-left: 18px;    /* indent list items */
+  line-height: 1.4;      /* better readability */
+  color: #333;           /* softer black */
+}
+
+.insightsList li {
+  margin-bottom: 4px;
+}
+
+.insightValues {
+  display: inline;       /* ensures the value stays next to the key */
+  font-weight: normal;
+  margin-left: 4px;
+}

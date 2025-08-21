@@ -1,0 +1,37 @@
+.mainContainer{
+    padding: 15px 42px;
+
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.rightContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.analysisCardContainer {
+    margin: 0px 0px;
+    max-height: calc(100vh - 90px);
+    overflow-y: scroll;
+}
+.bmwLogo{
+    border: 1px solid rgb(216, 216, 216);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    box-shadow: 0px 4px 6px rgba(105, 105, 105, 0.1);
+}
+.textHeader{
+    font-weight: 500;
+    font-size: 18px;
+}

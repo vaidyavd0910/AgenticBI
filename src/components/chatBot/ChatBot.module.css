@@ -1,13 +1,29 @@
+.chatSectionParent {
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.scrollableContainer {
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
+}
+
 .chatContainer {
-  width: 800px;
-  margin: 40px auto;
+  display: flex;
+  justify-content: center;
   border-radius: 8px;
   padding: 10px;
   font-family: Arial;
+  
+  margin: 5px;
 }
 
+
+
 .chatHistory {
-  height: 300px;
   overflow-y: auto;
   padding: 10px;
 }
@@ -16,19 +32,21 @@
   margin: 8px 0;
   padding: 10px;
   border-radius: 6px;
-  max-width: 70%;
+  max-width: 60%;
+  min-width: 50%;
 }
 
 .user {
-  background: #1a38e4;
+  background: #3b82f6;
   align-self: flex-end;
   text-align: left;
   margin-left: auto;
   color: white;
+  font-size: 13px;
 }
 
 .bot {
-  background: rgb(138, 135, 135);
+  /* background: rgb(138, 135, 135); */
   align-self: flex-start;
   text-align: left;
 }
@@ -100,4 +118,7 @@
   display: flex;
   justify-content: flex-start;
   gap: 12px;
+}
+.chatSectionParent{
+    background-color:white;
 }

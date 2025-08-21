@@ -2,4 +2,214 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #f0f0f0;
+    padding: 5px;
+}
+.brainIconContainer{
+    padding: 6px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.brainIconContainer:hover{
+background: rgb(232, 232, 245);
+padding: 6px  5px;
+border-radius: 5px;
+}
+.editText{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 5px;
+    margin: 5px;
+}
+.editButton{
+     padding: 6px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.checkButton{
+    cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+}
+.checkButton:hover{
+    background: rgb(232, 232, 245);
+}
+.crossButton{
+    cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+}
+.crossButton:hover{
+    background: rgb(232, 232, 245);
+}
+.editButton:hover{
+    background: rgb(232, 232, 245);
+    border-radius: 5px;
+}
+.rightSection{
+    display: flex;
+    align-items: center;
+    gap:2px
+}
+.icons{
+display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
+    padding: 5px;
+}
+.icons:hover{
+    background: rgb(232, 232, 245);
+    border-radius: 5px;
+    padding: 5px;
+}
+.bmwLogo{
+    border: 1px solid rgb(216, 216, 216);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    box-shadow: 0px 4px 6px rgba(105, 105, 105, 0.1);
+    margin-left: 2px;
+}
+.panel {
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  width: 240px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* Scrollbar styling */
+.panel::-webkit-scrollbar {
+  width: 6px;
+}
+.panel::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.panel::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.panelTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.section {
+  margin-top: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.sectionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.list {
+  font-size: 13px;
+  color: #333;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  margin-bottom: 4px;
+}
+
+.listItem span {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tag {
+  background: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #333;
+}
+
+.questionItem {
+  font-size: 13px;
+  /* color: #0066cc; */
+  margin: 4px 0;
+  padding: 7px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.questionItem:hover{
+    background-color:#f5f5f5;;
+}
+
+
+
+.selectedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-left: 8px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+   border: 1px solid #e9e7e7;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.closeIcon {
+  margin-left: 6px;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+}
+
+.menuTitle {
+  margin: 0;
+  padding: 5px;
+  font-size: 11px;
+  font-weight: bold;
+  /* color: gray; */
 }

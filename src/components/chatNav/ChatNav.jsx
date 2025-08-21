@@ -1,66 +1,81 @@
 import React, { useState } from 'react';
-import {
-  Typography,
-  Select,
-  DatePicker,
-  Button,
-  Badge,
-  Input,
-} from 'antd';
-import {
-  ReloadOutlined,
-  SaveOutlined,
-  MoreOutlined,
-} from '@ant-design/icons';
-import { IoArrowBackOutline } from "react-icons/io5";
-import { FiEdit2 } from "react-icons/fi";
-import { GoDatabase } from "react-icons/go";
-import { IoCalendarClearOutline } from "react-icons/io5";
+import { Typography, Input, Dropdown, Menu } from 'antd';
 import { ReusableDropdown } from '../dropDown/ReusableDropdown';
 import styles from './ChatNav.module.css';
-import { GoKebabHorizontal } from "react-icons/go";
-import { Dropdown, Menu } from 'antd';
-
-import { TbDeviceIpadPin } from "react-icons/tb";
-import { FaLink } from "react-icons/fa6";
-import { HiOutlineDownload } from "react-icons/hi";
+import { Plus } from 'lucide-react';
+import {
+  Database,
+  Calendar,
+  AlignJustify,
+  Monitor,
+  SearchCheck,
+  Sun,
+  Moon,
+  Laptop
+} from 'lucide-react';
+import { ButtonComponent } from '../button/ButtonComponent';
+import bmw from '../../assets/bmw-logo.svg'
 
 const { Title } = Typography;
 
-const dropdownOptions = [
-  { value: 'opt1', label: 'Option 1' },
-  { value: 'opt2', label: 'Option 2' },
-  { value: 'opt3', label: 'Option 3' },
+const dataSetDropDown = [
+  { value: 'opt1', label: 'Sales Dataset' },
+  { value: 'opt2', label: 'Marketing Dataset' },
+  { value: 'opt3', label: 'Customer Dataset' },
 ];
-const menuItems = (
-  <Menu>
-    <Menu.Item key="1"><TbDeviceIpadPin /> Pin this Insight</Menu.Item>
-    <Menu.Item key="2"><FaLink /> Share Session</Menu.Item>
-    <Menu.Item key="3"><HiOutlineDownload /> Export Analysis</Menu.Item>
-  </Menu>
-);
 
+const calendarDropDown = [
+  { value: 'opt1', label: 'Today' },
+  { value: 'opt2', label: 'This Week' },
+  { value: 'opt3', label: 'This Month' },
+  { value: 'opt4', label: 'This Quarter' },
+];
 
 export const ChatNav = () => {
-  const [selectedOption, setSelectedOption] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState('Q4 Sales Performance Deep Dive');
+  const [selectedDataset, setSelectedDataset] = useState('');
+  const [selectedCalendar, setSelectedCalendar] = useState('');
 
-  const handleDropdownChange = (e) => {
-    setSelectedOption(e.target.value);
+  const handleDatasetChange = (value) => {
+    setSelectedDataset(value);
+    console.log('Selected dataset:', value);
   };
 
-  const handleTitleEdit = () => {
-    setIsEditing(true);
+  const handleCalendarChange = (value) => {
+    setSelectedCalendar(value);
+    console.log('Selected calendar:', value);
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleTitleSave = () => {
-    setIsEditing(false);
-  };
+  const themeMenu = (
+    <Menu
+      onClick={(e) => console.log('Theme selected:', e.key)}
+      items={[
+        {
+          key: 'light',
+          label: (
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Sun size={16} /> Light
+            </span>
+          ),
+        },
+        {
+          key: 'dark',
+          label: (
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Moon size={16} /> Dark
+            </span>
+          ),
+        },
+        {
+          key: 'system',
+          label: (
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Laptop size={16} /> System
+            </span>
+          ),
+        },
+      ]}
+    />
+  );
 
   return (
     <div
@@ -75,83 +90,62 @@ export const ChatNav = () => {
         gap: '50px'
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div className={styles.backButton}>
-            <IoArrowBackOutline />
-          </div>
-
-          {isEditing ? (
-            <>
-             <Input
-              value={title}
-              onChange={handleTitleChange}
-              onPressEnter={handleTitleSave}
-              onBlur={handleTitleSave}
-              style={{ fontSize: 12, width: 300 }}
-              autoFocus
-            /><div className={styles.editButton} onClick={handleTitleEdit}>
-                <FiEdit2 />
-              </div>
-               <Badge
-            count="Darft"
-            style={{
-              backgroundColor: '#1677ff',
-              marginLeft: 8,
-            }}
-          />
-            </>
-           
-            
-          ) : (
-            <>
-              <Title level={5} style={{ margin: 0 }} className={styles.textHeading}>{title}</Title>
-              <div className={styles.editButton} onClick={handleTitleEdit}>
-                <FiEdit2 />
-              </div>
-               <Badge
-            count="Saved"
-            style={{
-              backgroundColor: '#1677ff',
-              marginLeft: 8,
-            }}
-          />
-            </>
-          )}
-
-         
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
-          <GoDatabase />
-          <ReusableDropdown
-            label=""
-            options={dropdownOptions}
-            value={selectedOption}
-            onChange={handleDropdownChange}
-          />
-          <IoCalendarClearOutline />
-           <ReusableDropdown
-            label=""
-            options={dropdownOptions}
-            value={selectedOption}
-            onChange={handleDropdownChange}
-          />
-        </div>
-      </div>
-
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
-          <Button icon={<ReloadOutlined />}>Re-run Analysis</Button>
-          <Button icon={<SaveOutlined />}>Save</Button>
-          <Dropdown overlay={menuItems} trigger={['click']} placement="bottomRight">
-  <div className={styles.menuButton} style={{ cursor: 'pointer' }}>
-    <GoKebabHorizontal />
-  </div>
-</Dropdown>
+          {/* <div className={styles.menuButton}>
+            <AlignJustify height={'15'} />
+          </div> */}
+          <div className={styles.createBtn}>
+            <ButtonComponent text={'Create New'} variant={'borderless'} icons={[<Plus height={15}/>]} />
+          </div>
+          {/* <div>
+            <Input
+              placeholder="Search analysis..."
+              allowClear
+              prefix={<SearchCheck height={'15'} color='grey' />}
+              className={styles.custSearch}
+              style={{
+                width: 300,
+                borderRadius: 6,
+              }}
+            />
+          </div> */}
 
+          <div>
+            <Database height={'15'} color={'grey'} />
+          </div>
+          <div>
+            <ReusableDropdown
+              label=""
+              options={dataSetDropDown}
+              value={selectedDataset}
+              onChange={handleDatasetChange}
+            />
+          </div>
+
+          <div>
+            <Calendar height={'15'} color={'grey'} />
+          </div>
+          <div>
+            <ReusableDropdown
+              label=""
+              options={calendarDropDown}
+              value={selectedCalendar}
+              onChange={handleCalendarChange}
+            />
+          </div>
         </div>
       </div>
+<div className={styles.rightSection}>
+    <Dropdown overlay={themeMenu} trigger={['click']} placement="bottomRight">
+        <div className={styles.monitorButton} style={{ cursor: 'pointer', padding:"5px" }}>
+          <Monitor height={'15'} />
+        </div>
+      </Dropdown>
+      <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+
+</div>
+    
     </div>
   );
 };
