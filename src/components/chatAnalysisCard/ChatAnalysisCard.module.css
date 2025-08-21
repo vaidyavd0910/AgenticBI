@@ -2,7 +2,7 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 16px;
+  padding: 30px;
   margin-bottom: 12px;
 }
 
@@ -45,4 +45,74 @@
   border-radius: 12px;
   font-size: 12px;
   color: #374151;
+}
+.card {
+  position: relative;
+  padding: 25px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Actions hidden by default */
+.actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  gap: 10px;
+  margin: 5px;
+}
+
+/* Show actions only on hover */
+.card:hover .actions {
+  display: flex;
+}
+
+/* Action button styling */
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.2s;
+    padding: 5px 7px;
+}
+
+.actionBtn:hover {
+    background: rgb(232, 232, 245);
+  border-radius: 5px;
+  padding: 5px 7px;
+}
+.continueBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  /* font-size: 13px; */
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  background-color: #f6f8fa;
+  color: #24292f;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.continueBtn:hover {
+  background-color: #3b82f6;   /* light blue hover */
+  /* border-color: #1890ff; */
+  color: white;
 }

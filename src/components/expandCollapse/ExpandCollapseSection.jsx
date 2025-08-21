@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './ExpandCollapseSection.module.css'
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export const ExpandCollapseSection = ({title, children}) => {
 
@@ -17,7 +18,7 @@ export const ExpandCollapseSection = ({title, children}) => {
 	 <div className={styles.section}>
       <div className={styles.header} onClick={() => setIsOpen(!isOpen)}>
         <span>{title}</span>
-        <span className={styles.icon}>{isOpen ? "▲" : "▼"}</span>
+        <span className={styles.icon}>{isOpen ? <ChevronUp height={15} /> : <ChevronDown height={15}/>}</span>
       </div>
 
       <div

@@ -10,7 +10,7 @@ export const ChatPage = ({isSidebarExpanded, setIsSidebarExpanded, messages, set
   return (
      <div className={styles.appContainer}>
          
-            <div style={{padding: '5px'}}>
+            <div style={{marginLeft : '15px',marginRight: '15px'}}>
               <ChatSubNav isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} sendMessage={sendMessage} />
             </div>
               <ChatBot searchInput={searchInput} setSearchInput={setSearchInput} messages={messages} sendMessage={sendMessage}/>

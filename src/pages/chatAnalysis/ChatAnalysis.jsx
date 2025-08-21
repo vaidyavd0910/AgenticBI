@@ -11,7 +11,7 @@ const DropDown = [
   { value: 'opt3', label: 'Most Messages' },
 ];
 export const ChatAnalysis = () => {
-    const [selectedData, setSelectedData] = useState('');
+    const [selectedData, setSelectedData] = useState('opt1');
       const handleDatasetChange = (value) => {
     setSelectedData(value);
     console.log('Selected dataset:', value);
@@ -20,7 +20,7 @@ export const ChatAnalysis = () => {
     <div className={styles.mainContainer}>
     <div className={styles.header}>
         <div>
-            <h3>Chat Analysis Page</h3>
+            <h3>Chat Analyses</h3>
         </div>
         <div className={styles.rightContainer}>
              <div>
@@ -31,7 +31,9 @@ export const ChatAnalysis = () => {
                           onChange={handleDatasetChange}
                         />
                       </div>
-                        <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+                        <div className={styles.bmwLogo}>
+                          <img src={bmw} alt="BMW Logo" style={{ height: '22px'}} />
+                          </div>
         </div>
     </div>
     <div className={styles.analysisCardContainer}>

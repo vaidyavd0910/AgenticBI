@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import styles from './LandingPage.module.css';
 import bmw from '../../assets/bmw-logo.svg'
-import { Calendar, Database, Lightbulb, Mic, Send, Sparkles, Text } from 'lucide-react';
+import { Calendar, ChartColumnIncreasing, Database, Lightbulb, Mic, Send, Sparkles, Text } from 'lucide-react';
 import Title from 'antd/es/skeleton/Title';
 import TextArea from 'antd/es/input/TextArea';
 import { fetchQueryResult } from '../../service/Api';
 import { useNavigate } from "react-router-dom";
+import { Dropdown, Menu } from 'antd';
 const questionsData = {
   KPI: [
     "What were our top performing products this quarter?",
@@ -32,6 +33,39 @@ const questionsData = {
     "What products are declining in sales?",
   ],
 };
+const datasetMenu = (
+ <Menu width={'200px'}>
+     <span style={{ 
+     margin: 0, 
+     padding: '5px',
+     fontSize: "11px",  
+     fontWeight: 'bold', // smaller font size
+     color: "gray"       // gray text
+   }}>Dataset</span>
+    <Menu.Item key="all">All Datasets</Menu.Item>
+    <Menu.Item key="sales">Sales Dataset</Menu.Item>
+    <Menu.Item key="customer">Customer Dataset</Menu.Item>
+    <Menu.Item key="marketing">Marketing Dataset</Menu.Item>
+    <Menu.Item key="financial">Financial Dataset</Menu.Item>
+  </Menu>
+);
+
+const timeMenu = (
+  <Menu width={'200px'}>
+    <span style={{ 
+    margin: 0, 
+    padding: '5px',
+    fontSize: "11px",  
+    fontWeight: 'bold', // smaller font size
+    color: "gray"       // gray text
+  }}>Time Range</span>
+    <Menu.Item key="all">All Time</Menu.Item>
+    <Menu.Item key="sales">Last 7 days</Menu.Item>
+    <Menu.Item key="customer">Last 30 days</Menu.Item>
+    <Menu.Item key="marketing">Last 90 days</Menu.Item>
+    <Menu.Item key="financial">Last year</Menu.Item>
+  </Menu>
+);
 const quickFilters = [
   { label: "KPI", type: "kpi" , icon: <ChartColumnIncreasing height={15}/>},
   { label: "Suggested", type: "suggested", icon: <Lightbulb height={15}/> },
@@ -51,8 +85,9 @@ export const LandingPage = ({sendMessage}) => {
     // Call your sendMessage function
     sendMessage(value);
      setValue("");
+     navigate("/chatPage");
 await fetchQueryResult(value);
- navigate("/chatPage");
+ 
     // Clear after sending
 
    
@@ -61,7 +96,9 @@ await fetchQueryResult(value);
     <div>
          <div className={styles.chatSuggestionContainer}>
               <div className={styles.header}>
-                    <img src={bmw} alt="BMW Logo" style={{ height: '25px'}} />
+                      <div className={styles.bmwLogo}>
+                                              <img src={bmw} alt="BMW Logo" style={{ height: '22px'}} />
+                                              </div>
               </div>
               <div className={styles.analysisContainer}>
   <div className={styles.sparkle}>
@@ -87,20 +124,26 @@ await fetchQueryResult(value);
       <div className={styles.iconsBar}>
         <div className={styles.iconsBarLeft}>
          <div className={styles.icons}>
-                          <Database height={'15'} />
-                       </div>
+  <Dropdown overlay={datasetMenu} trigger={['click']} placement="topLeft">
+    <Database height={15} style={{ cursor: "pointer" }} />
+  </Dropdown>
+</div>
                         <div className={styles.icons}>
-          <Calendar height={15} /></div>
+                           <Dropdown overlay={timeMenu} trigger={['click']} placement="topLeft">
+            <Calendar height={15} style={{ cursor: "pointer" }} />
+        </Dropdown>
+         </div>
         </div>
         <div className={styles.iconsBarRight}>
            <div className={styles.icons}>
           <Mic height={15} /></div>
-          <div
-            onClick={handleMsg}
-            className={`${styles.sendBtn} ${!value.trim() ? styles.disabled : ""}`}
-          >
-            <Send height={15} />
-          </div>
+          <button
+  onClick={handleMsg}
+  disabled={!value.trim()}   // ✅ disables when empty
+  className={`${styles.sendBtn} ${!value.trim() ? styles.disabled : ""}`}
+>
+  <Send height={15} />
+</button>
         </div>
       </div>
     </div>
@@ -115,23 +158,7 @@ await fetchQueryResult(value);
       <h5 className={styles.headingQuieck}>Quick access questions</h5>
 
       {/* Filter Buttons */}
-      <div className={styles.filterWrapper}>
-        {quickFilters.map((f) => (
-          <button
-            key={f.label}
-            onClick={() => setActiveFilter(f.label)}
-            className={`${styles.filterBtn} ${styles[f.type]} ${
-              activeFilter === f.label ? styles.active : ""
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Questions Grid */}
-   {activeFilter ? (
-  <div className={styles.filterWrapper}>
+     <div className={styles.filterWrapper}>
   {quickFilters.map((f) => (
     <button
       key={f.label}
@@ -140,16 +167,28 @@ await fetchQueryResult(value);
         activeFilter === f.label ? styles.active : ""
       }`}
     >
-      <span className={styles.filterIcon}>{f.icon}</span>
-      {f.label}
+      <div className={styles.filterNameConatiner}>
+<span className={styles.filterIcon}>{f.icon}</span>
+      <span className={styles.filterName}>{f.label}</span>
+      </div>
+      
     </button>
   ))}
 </div>
-) : (
-  <div style={{ height: "100px" }}></div>  // empty space placeholder
-)}
+
+
+      {/* Questions Grid */}
+      <div className={styles.questionsGrid}>
+        {questionsData[activeFilter]?.map((q, idx) => (
+          <button key={idx} className={styles.questionCard}  onClick={() => setValue(q)}>
+            {q}
+          </button>
+        ))}
+      </div>
     </div>
        </div>
     </div>
   )
 }
+
+
