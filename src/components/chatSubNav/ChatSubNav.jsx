@@ -81,7 +81,7 @@ const timeMenu = (
   </Menu>
 );
 
-export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessage }) => {
+export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessage, setSearchInput,setValue , setMessages}) => {
   const [title, setTitle] = useState("Analysis Session");
   const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = useState(false);
@@ -256,7 +256,7 @@ export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessag
                            </div>
                      <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><Lightbulb height={15}/>Suggested Questions</h4>}>
                              {suggestedQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem}>
+                               <div key={idx} className={styles.questionItem} onClick={() => setMessages(q)}>
                                  {q}
                                </div>
                              ))}
@@ -265,7 +265,7 @@ export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessag
                            {/* <div className={styles.section}> */}
                              <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><TrendingUp height={15} />Popular Questions</h4>}>
                              {popularQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem}>
+                               <div key={idx} className={styles.questionItem} onClick={() => setValue(q)}>
                                  {q}
                                </div>
                              ))}
@@ -276,7 +276,10 @@ export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessag
                            {/* <div className={styles.section}> */}
                              <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><ChartColumnIncreasing height={15}/>KPI Questions</h4>}>
                              {kpiQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem}>
+                               <div key={idx} className={styles.questionItem} onClick={() => {
+  setMessages([{ sender: "user", text: q }]);
+  sendMessage(q);
+}}>
                                  {q}
                                </div>
                              ))}

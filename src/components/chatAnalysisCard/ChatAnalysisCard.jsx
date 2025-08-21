@@ -1,10 +1,19 @@
 import React from 'react'
 import styles from './ChatAnalysisCard.module.css';
-import { Play, FileText, RotateCcw, MessageSquare, Clock4 } from 'lucide-react'; // icons for actions
+import { Play, FileText, RotateCcw, MessageSquare, Clock4, Database, Tag } from 'lucide-react'; // icons for actions
+import { useNavigate } from 'react-router-dom';
 
 export const ChatAnalysisCard = ({ cardData }) => {
+   const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    // Navigate to chat page with the session id
+    // navigate(`/chat/${cardData.id}`, { state: { cardData } });
+    navigate('/chatPage')
+  };
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={handleCardClick}>
       {/* Hover Action Buttons */}
       <div className={styles.actions}>
         <button className={styles.continueBtn}>
@@ -27,13 +36,23 @@ export const ChatAnalysisCard = ({ cardData }) => {
       </div>
      
       <p className={styles.description}>{cardData.description}</p>
-      <div className={styles.tags}>
+      {/* <div className={styles.tags}>
         {cardData.tags.map((tag, i) => (
           <span key={i} className={styles.tag}>
             {tag}
           </span>
         ))}
+      </div> */}
+      <div className={styles.lableContainer}>
+         <div className={styles.datasetTypeContainer}>
+        <div className={styles.iconDiv}><Database height={15} /></div><div className={styles.datasetTypeCon}>{cardData.datasetType}</div>
       </div>
+      <div className={styles.daysContainer}>
+        <div className={styles.iconDiv}><Tag height={15} /></div><div className={styles.datasetTypeCon}>{cardData.timeRange}</div>
+      </div>
+
+      </div>
+     
     </div>
   )
 }

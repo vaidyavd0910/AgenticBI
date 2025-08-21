@@ -20,7 +20,7 @@ function App() {
     const [messages, setMessages] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [prevQuery, setPrevQuery] = useState("")
-  
+    const [value, setValue] = useState('');
     const sendMessage = async (searchQuery, isRerun = false) => {
         const queryValue = isRerun ? prevQuery : searchQuery
         setPrevQuery(queryValue);
@@ -73,7 +73,7 @@ function App() {
       <Routes>
         <Route path="/new-analysis" element={<NewAnalysis />} />
         <Route path="/" element={<ChatSectionLayout isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded}  />}>
-          <Route path="/" element={<LandingPage sendMessage={sendMessage} />} />
+          <Route path="/" element={<LandingPage sendMessage={sendMessage} setValue={setValue} value={value}/>} />
           <Route path="/chatPage" element={
             <ChatPage 
               isSidebarExpanded={isSidebarExpanded} 
@@ -83,6 +83,7 @@ function App() {
               searchInput={searchInput}
               setSearchInput={setSearchInput}
               sendMessage={sendMessage}
+              setValue={setValue} value={value}
             />} />
           <Route path="/chatAnalysis" element={<ChatAnalysis />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />

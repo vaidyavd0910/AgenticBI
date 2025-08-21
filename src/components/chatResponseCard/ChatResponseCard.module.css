@@ -20,6 +20,7 @@
 }
 .cardTitle{
   padding: 3px;
+  font-size: 13px;
 }
 .readToggleBtn {
   background: none;
@@ -68,7 +69,7 @@
 }
 
 .insightsTitle {
-	font-size: medium;
+	font-size: 15px;
   font-weight: bold;
   margin-bottom: 0.25rem;
   margin-top: 8px;
@@ -98,4 +99,36 @@
 
 .insightsList li strong {
   font-weight: bold; /* keep key bold but not too heavy */
+  font-size: 12px;
+}
+.insightVlues{
+  font-size: 10px;
+}
+.recommendationsList {
+  font-size: 12px;       /* smaller font */
+  margin-top: 4px;
+  padding-left: 18px;    /* keeps indentation for list */
+  line-height: 1.4;      /* improves readability */
+  color: #333;           /* softer black */
+}
+
+.recommendationsList li {
+  margin-bottom: 4px;    /* little spacing between items */
+}
+.insightsList {
+  font-size: 12px;       /* smaller font size */
+  margin-top: 4px;
+  padding-left: 18px;    /* indent list items */
+  line-height: 1.4;      /* better readability */
+  color: #333;           /* softer black */
+}
+
+.insightsList li {
+  margin-bottom: 4px;
+}
+
+.insightValues {
+  display: inline;       /* ensures the value stays next to the key */
+  font-weight: normal;
+  margin-left: 4px;
 }

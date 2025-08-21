@@ -16,5 +16,10 @@ export const addQuestion = async () => {
   return response.data;
 };
 
+export const getChatHistory = async () => {
+  const response = await axios.get(`${BASE_URL}/mock/chat_session`);
+  console.info(response);
+  return response.data;
+};
 
 

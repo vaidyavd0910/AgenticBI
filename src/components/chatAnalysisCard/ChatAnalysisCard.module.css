@@ -116,3 +116,30 @@
   /* border-color: #1890ff; */
   color: white;
 }
+.datasetTypeContainer{
+  display: flex;
+    background-color: #d5d9df;
+  border-radius: 6px;
+}
+.datasetTypeCon{
+  font-size: 11px;
+  padding: 4px 7px;
+
+}
+.lableContainer{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap:6px;
+}
+.iconDiv{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.daysContainer{
+    display: flex;
+  border-radius: 6px;
+  border: 1px solid #d5d9df;
+}

@@ -97,30 +97,33 @@ export const ChatResponseCard = ({
 
       {expanded && insights && (
         <div className={styles.insightsBox} ref={insightsRef}>
-          <h6 className={styles.insightsTitle}>Key Insights:</h6>
+          <div className={styles.insightsTitle}>Key Insights:</div>
 
           {/* Render key insights (object) */}
-          {insights.key_insights && (
-           <ul className={styles.insightsList}>
-              {Object.entries(insights.key_insights).map(([key, value], i) => (
-                <li key={i}>
-                  <strong>{key}:</strong> {value}
-                </li>
-              ))}
-            </ul>
-          )}
+       {/* Render key insights (object) */}
+{insights.key_insights && (
+  <ul className={styles.insightsList}>
+    {Object.entries(insights.key_insights).map(([key, value], i) => (
+      <li key={i}>
+        <strong>{key}:</strong>{" "}
+        <div className={styles.insightValues}>{value}</div>
+      </li>
+    ))}
+  </ul>
+)}
+
 
           {/* Render recommendations (array) */}
-          {insights.recommendations && insights.recommendations.length > 0 && (
-            <>
-              <h6 className={styles.insightsTitle}>Recommendations:</h6>
-              <ul>
-                {insights.recommendations.map((rec, i) => (
-                  <li key={i}>{rec}</li>
-                ))}
-              </ul>
-            </>
-          )}
+     {insights.recommendations && insights.recommendations.length > 0 && (
+  <>
+    <div className={styles.insightsTitle}>Recommendations:</div>
+    <ul className={styles.recommendationsList}>
+      {insights.recommendations.map((rec, i) => (
+        <li key={i}>{rec}</li>
+      ))}
+    </ul>
+  </>
+)}
         </div>
       )}
 
