@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './ChatSectionLayout.module.css';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../../components/sidebar/Sidebar';
-import StaticSidebar from '../../components/staticSidebar/staticSidebar';
-
+// import StaticSidebar from '../../components/staticSidebar/staticSidebar';
+import StaticSidebar from '../../components/staticSidebar/StaticSidebar';
 export const ChatSectionLayout = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
   return (
     <div className={styles.mainAppContainer}>
