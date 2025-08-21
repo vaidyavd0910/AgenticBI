@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './LandingPage.module.css';
 import bmw from '../../assets/bmw-logo.svg';
-import { Calendar, ChartColumnIncreasing, Database, Lightbulb, Mic, Send, Sparkles, TrendingUp } from 'lucide-react';
+import { Calendar, ChartColumnIncreasing, Database, Lightbulb, Mic, Send, Sparkles, TrendingUp, X } from 'lucide-react';
 import TextArea from 'antd/es/input/TextArea';
 import { addQuestion, fetchQueryResult } from '../../service/Api';
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Menu } from 'antd';
-
 const datasetMenu = (
   <Menu width={'200px'}>
     <span style={{ margin: 0, padding: '5px', fontSize: "11px", fontWeight: 'bold', color: "gray" }}>Dataset</span>
@@ -35,12 +34,47 @@ const quickFilters = [
   { label: "Suggested", type: "suggested", icon: <Lightbulb height={15}/> },
   { label: "Popular", type: "popular", icon: <TrendingUp height={15} /> },
 ];
-
 export const LandingPage = ({ sendMessage }) => {
   const [value, setValue] = useState('');
   const [activeFilter, setActiveFilter] = useState("");
   const [questionsData, setQuestionsData] = useState({ KPI: [], Suggested: [], Popular: [] });
+  const [selectedDatasets, setSelectedDatasets] = useState([]);
+  const [selectedTimes, setSelectedTimes] = useState([]);
   const navigate = useNavigate();
+
+  // dataset menu handler
+  const datasetMenu = (
+     <Menu
+    onClick={({ key }) => {
+      // Replace the dataset selection (only one allowed)
+      setSelectedDatasets([key]);
+    }}
+  >
+      <span style={{ margin: 0, padding: '5px', fontSize: "11px", fontWeight: 'bold', color: "gray" }}>Dataset</span>
+      <Menu.Item key="All Datasets">All Datasets</Menu.Item>
+      <Menu.Item key="Sales Dataset">Sales Dataset</Menu.Item>
+      <Menu.Item key="Customer Dataset">Customer Dataset</Menu.Item>
+      <Menu.Item key="Marketing Dataset">Marketing Dataset</Menu.Item>
+      <Menu.Item key="Financial Dataset">Financial Dataset</Menu.Item>
+    </Menu>
+  );
+
+  // time range menu handler
+  const timeMenu = (
+    <Menu
+    onClick={({ key }) => {
+      // Replace the time selection (only one allowed)
+      setSelectedTimes([key]);
+    }}
+  >
+      <span style={{ margin: 0, padding: '5px', fontSize: "11px", fontWeight: 'bold', color: "gray" }}>Time Range</span>
+      <Menu.Item key="All Time">All Time</Menu.Item>
+      <Menu.Item key="Last 7 days">Last 7 days</Menu.Item>
+      <Menu.Item key="Last 30 days">Last 30 days</Menu.Item>
+      <Menu.Item key="Last 90 days">Last 90 days</Menu.Item>
+      <Menu.Item key="Last year">Last year</Menu.Item>
+    </Menu>
+  );
 
   // Fetch questions from API
   useEffect(() => {
@@ -125,9 +159,29 @@ export const LandingPage = ({ sendMessage }) => {
                   </button>
                 </div>
               </div>
+
+             
             </div>
           </div>
+          
         </div>
+       <div className={styles.pillar}> 
+  <div className={styles.selectedTags}>
+    {[...selectedDatasets, ...selectedTimes].map((item) => (
+      <div key={item} className={styles.tag}>
+        {item}
+        <X 
+          className={styles.closeIcon} 
+          onClick={() => {
+            // Clear either dataset or time based on which is selected
+            setSelectedDatasets(selectedDatasets.filter(d => d !== item));
+            setSelectedTimes(selectedTimes.filter(t => t !== item));
+          }} 
+        />
+      </div>
+    ))}
+  </div>
+</div>
       </div>
 
       {/* Quick Access Questions */}

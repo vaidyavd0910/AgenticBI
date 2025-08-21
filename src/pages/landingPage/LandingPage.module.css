@@ -84,6 +84,7 @@ border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 .container {
   max-width: 800px;
@@ -280,4 +281,33 @@ display: flex;
     justify-content: center;
     border-radius: 6px;
      box-shadow: 0px 4px 6px rgba(105, 105, 105, 0.1);
+}
+.selectedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  /* background: #f1f1f1; */
+  border: 1px solid #e9e7e7;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.closeIcon {
+  margin-left: 6px;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+}
+
+.pillar{
+  display: flex;
+  align-items: center;
+  align-items: center;
 }

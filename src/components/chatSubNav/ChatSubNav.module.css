@@ -181,10 +181,35 @@ display: flex;
 }
 
 
-/* Chevron icon rotation */
-.chevron {
-  transition: transform 0.2s ease;
+
+.selectedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-left: 8px;
 }
-.chevron.open {
-  transform: rotate(180deg);
+
+.tag {
+  display: flex;
+  align-items: center;
+   border: 1px solid #e9e7e7;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.closeIcon {
+  margin-left: 6px;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+}
+
+.menuTitle {
+  margin: 0;
+  padding: 5px;
+  font-size: 11px;
+  font-weight: bold;
+  /* color: gray; */
 }

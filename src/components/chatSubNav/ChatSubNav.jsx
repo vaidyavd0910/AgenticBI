@@ -34,7 +34,25 @@ import {
 import { addQuestion } from "../../service/Api";
 import { ExpandCollapseSection } from "../expandCollapse/ExpandCollapseSection";
 
-const menuItems = (
+
+export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessage, setSearchInput,setValue , setMessages}) => {
+  const [title, setTitle] = useState("Analysis Session");
+  const [isEditing, setIsEditing] = useState(false);
+  const [open, setOpen] = useState(false);
+    const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+    const [popularQuestions, setPopularQuestions] = useState([]);
+    const [kpiQuestions, setKpiQuestions] = useState([]);
+   const [selectedDataset, setSelectedDataset] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
+    const contextMemory = [
+      { label: "Time Period:", value: "Last 30 days" },
+      { label: "Dataset:", value: "Sales Dataset" },
+      { label: "Region Filter:", value: "North America" },
+      { label: "Product Category:", value: "All Categories" },
+    ];
+  
+    const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
+  const menuItems = (
   <Menu>
     <Menu.Item key="1">
       <Bookmark height={"15"} color={"gray"} /> Pin this Insight
@@ -48,56 +66,28 @@ const menuItems = (
   </Menu>
 );
 const datasetMenu = (
-  <Menu width={'150px'}>
-    <span style={{ 
-    margin: 0, 
-    padding: '5px',
-    fontSize: "11px",  
-    fontWeight: 'bold', // smaller font size
-    color: "gray"       // gray text
-  }}>Dataset</span>
-    <Menu.Item key="all">All Datasets</Menu.Item>
-    <Menu.Item key="sales">Sales Dataset</Menu.Item>
-    <Menu.Item key="customer">Customer Dataset</Menu.Item>
-    <Menu.Item key="marketing">Marketing Dataset</Menu.Item>
-    <Menu.Item key="financial">Financial Dataset</Menu.Item>
-  </Menu>
-);
+    <Menu onClick={({ key }) => setSelectedDataset(key)}>
+      <span className={styles.menuTitle}>Dataset</span>
+      <Menu.Item key="All Datasets">All Datasets</Menu.Item>
+      <Menu.Item key="Sales Dataset">Sales Dataset</Menu.Item>
+      <Menu.Item key="Customer Dataset">Customer Dataset</Menu.Item>
+      <Menu.Item key="Marketing Dataset">Marketing Dataset</Menu.Item>
+      <Menu.Item key="Financial Dataset">Financial Dataset</Menu.Item>
+    </Menu>
+  );
 
-const timeMenu = (
-  <Menu width={'150px'}>
-    <span style={{ 
-    margin: 0, 
-    padding: '5px',
-    fontSize: "11px",  
-    fontWeight: 'bold', // smaller font size
-    color: "gray"       // gray text
-  }}>Time Range</span>
-    <Menu.Item key="all">All Time</Menu.Item>
-    <Menu.Item key="sales">Last 7 days</Menu.Item>
-    <Menu.Item key="customer">Last 30 days</Menu.Item>
-    <Menu.Item key="marketing">Last 90 days</Menu.Item>
-    <Menu.Item key="financial">Last year</Menu.Item>
-  </Menu>
-);
+  const timeMenu = (
+    <Menu onClick={({ key }) => setSelectedTime(key)}>
+      <span className={styles.menuTitle}>Time Range</span>
+      <Menu.Item key="All Time">All Time</Menu.Item>
+      <Menu.Item key="Last 7 days">Last 7 days</Menu.Item>
+      <Menu.Item key="Last 30 days">Last 30 days</Menu.Item>
+      <Menu.Item key="Last 90 days">Last 90 days</Menu.Item>
+      <Menu.Item key="Last year">Last year</Menu.Item>
+    </Menu>
+  );
 
-export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessage, setSearchInput,setValue , setMessages}) => {
-  const [title, setTitle] = useState("Analysis Session");
-  const [isEditing, setIsEditing] = useState(false);
-  const [open, setOpen] = useState(false);
-    const [suggestedQuestions, setSuggestedQuestions] = useState([]);
-    const [popularQuestions, setPopularQuestions] = useState([]);
-    const [kpiQuestions, setKpiQuestions] = useState([]);
-  
-    const contextMemory = [
-      { label: "Time Period:", value: "Last 30 days" },
-      { label: "Dataset:", value: "Sales Dataset" },
-      { label: "Region Filter:", value: "North America" },
-      { label: "Product Category:", value: "All Categories" },
-    ];
-  
-    const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
-  
+
     useEffect(() => {
       const getQuestions = async () => {
         try {
@@ -156,7 +146,23 @@ export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessag
         )}
       </div>
 
+
    <div className={styles.rightSection}>
+     {/* ✅ Selected Tags (max 2) */}
+      <div className={styles.selectedTags}>
+        {selectedDataset && (
+          <div className={styles.tag}>
+            {selectedDataset}
+            <X className={styles.closeIcon} onClick={() => setSelectedDataset(null)} />
+          </div>
+        )}
+        {selectedTime && (
+          <div className={styles.tag}>
+            {selectedTime}
+            <X className={styles.closeIcon} onClick={() => setSelectedTime(null)} />
+          </div>
+        )}
+      </div>
   <Tooltip title="Refresh Analysis">
     <div onClick={() => sendMessage("", true)} className={styles.icons}>
       <RefreshCw height={"15"} />
