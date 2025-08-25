@@ -122,3 +122,8 @@
 .chatSectionParent{
     background-color:white;
 }
+#chat-container, 
+#chat-container * {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}

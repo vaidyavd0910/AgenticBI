@@ -9,10 +9,10 @@ import {
   Menu,
   Dropdown,
   Input,
-  Calendar
+  Calendar,
+  Tooltip
 } from "antd";
 import bmw from "../../assets/bmw-logo.svg";
-import { Tooltip } from "antd"; // ✅ import Tooltip
 import styles from "./ChatSubNav.module.css";
 import {
   Bookmark,
@@ -33,39 +33,80 @@ import {
 } from "lucide-react";
 import { addQuestion } from "../../service/Api";
 import { ExpandCollapseSection } from "../expandCollapse/ExpandCollapseSection";
+import html2pdf from "html2pdf.js";   // ✅ use html2pdf.js
 
-
-export const ChatSubNav = ({ isSidebarExpanded, setIsSidebarExpanded, sendMessage, setSearchInput,setValue , setMessages}) => {
+export const ChatSubNav = ({
+  isSidebarExpanded,
+  setIsSidebarExpanded,
+  sendMessage,
+  setSearchInput,
+  setValue,
+  setMessages,
+  restartChat
+}) => {
   const [title, setTitle] = useState("Analysis Session");
   const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = useState(false);
-    const [suggestedQuestions, setSuggestedQuestions] = useState([]);
-    const [popularQuestions, setPopularQuestions] = useState([]);
-    const [kpiQuestions, setKpiQuestions] = useState([]);
-   const [selectedDataset, setSelectedDataset] = useState(null);
+  const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+  const [popularQuestions, setPopularQuestions] = useState([]);
+  const [kpiQuestions, setKpiQuestions] = useState([]);
+  const [selectedDataset, setSelectedDataset] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-    const contextMemory = [
-      { label: "Time Period:", value: "Last 30 days" },
-      { label: "Dataset:", value: "Sales Dataset" },
-      { label: "Region Filter:", value: "North America" },
-      { label: "Product Category:", value: "All Categories" },
-    ];
-  
-    const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
+
+  const contextMemory = [
+    { label: "Time Period:", value: "Last 30 days" },
+    { label: "Dataset:", value: "Sales Dataset" },
+    { label: "Region Filter:", value: "North America" },
+    { label: "Product Category:", value: "All Categories" },
+  ];
+
+  // ✅ FIXED PDF Export
+  const downloadChatAsPDF = () => {
+  const element = document.getElementById("chat-container");
+
+  // Get session title (remove spaces for filename safety)
+  const sessionName = title.replace(/\s+/g, "_");
+
+  // Format current date & time (YYYY-MM-DD_HH-mm-ss)
+  const now = new Date();
+  const timestamp = now
+    .toISOString()
+    .replace(/T/, "_")
+    .replace(/:/g, "-")
+    .split(".")[0];
+
+  const fileName = `${sessionName}_${timestamp}.pdf`;
+
+  const opt = {
+    margin: 10,
+    filename: fileName, // ✅ dynamic filename
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+  };
+
+  html2pdf().set(opt).from(element).save();
+};
+
+
+  const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
+
   const menuItems = (
-  <Menu>
-    <Menu.Item key="1">
-      <Bookmark height={"15"} color={"gray"} /> Pin this Insight
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Share2Icon height={"15"} color={"gray"} /> Share Session
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Download height={"15"} color={"gray"} /> Export Analysis
-    </Menu.Item>
-  </Menu>
-);
-const datasetMenu = (
+    <Menu>
+      <Menu.Item key="1">
+        <Bookmark height={"15"} color={"gray"} /> Pin this Insight
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Share2Icon height={"15"} color={"gray"} /> Share Session
+      </Menu.Item>
+      <Menu.Item key="3" onClick={downloadChatAsPDF}>
+        <Download height={"15"} color={"gray"} /> Export Analysis
+      </Menu.Item>
+    </Menu>
+  );
+
+  const datasetMenu = (
     <Menu onClick={({ key }) => setSelectedDataset(key)}>
       <span className={styles.menuTitle}>Dataset</span>
       <Menu.Item key="All Datasets">All Datasets</Menu.Item>
@@ -87,21 +128,20 @@ const datasetMenu = (
     </Menu>
   );
 
+  useEffect(() => {
+    const getQuestions = async () => {
+      try {
+        const data = await addQuestion();
+        setSuggestedQuestions(data.suggestion_questions || []);
+        setPopularQuestions(data.Popular_Question || []);
+        setKpiQuestions(data.KPI_Question || []);
+      } catch (error) {
+        console.error("Failed to fetch questions:", error);
+      }
+    };
 
-    useEffect(() => {
-      const getQuestions = async () => {
-        try {
-          const data = await addQuestion();
-          setSuggestedQuestions(data.suggestion_questions || []);
-          setPopularQuestions(data.Popular_Question || []);
-          setKpiQuestions(data.KPI_Question || []);
-        } catch (error) {
-          console.error("Failed to fetch questions:", error);
-        }
-      };
-  
-      getQuestions();
-    }, []); 
+    getQuestions();
+  }, []);
 
   const handleTitleEdit = () => setIsEditing(true);
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -129,8 +169,9 @@ const datasetMenu = (
           </>
         ) : (
           <>
-            {/* ✅ Plain text instead of Typography.Title */}
-            <h5 className={styles.textHeading} style={{ margin: 0 }}>{title}</h5>
+            <h5 className={styles.textHeading} style={{ margin: 0 }}>
+              {title}
+            </h5>
             <div className={styles.editButton} onClick={handleTitleEdit}>
               <Pen height={"15"} />
             </div>
@@ -146,155 +187,71 @@ const datasetMenu = (
         )}
       </div>
 
+      <div className={styles.rightSection}>
+        {/* ✅ Selected Tags */}
+        <div className={styles.selectedTags}>
+          {selectedDataset && (
+            <div className={styles.tag}>
+              {selectedDataset}
+              <X className={styles.closeIcon} onClick={() => setSelectedDataset(null)} />
+            </div>
+          )}
+          {selectedTime && (
+            <div className={styles.tag}>
+              {selectedTime}
+              <X className={styles.closeIcon} onClick={() => setSelectedTime(null)} />
+            </div>
+          )}
+        </div>
 
-   <div className={styles.rightSection}>
-     {/* ✅ Selected Tags (max 2) */}
-      <div className={styles.selectedTags}>
-        {selectedDataset && (
-          <div className={styles.tag}>
-            {selectedDataset}
-            <X className={styles.closeIcon} onClick={() => setSelectedDataset(null)} />
-          </div>
-        )}
-        {selectedTime && (
-          <div className={styles.tag}>
-            {selectedTime}
-            <X className={styles.closeIcon} onClick={() => setSelectedTime(null)} />
-          </div>
-        )}
-      </div>
-  <Tooltip title="Refresh Analysis">
-    <div onClick={() => sendMessage("", true)} className={styles.icons}>
+        {/* Actions */}
+       <Tooltip title="Refresh Analysis">
+    <div onClick={restartChat} className={styles.icons}>
       <RefreshCw height={"15"} />
     </div>
   </Tooltip>
 
-  <Tooltip title="Save Session">
-    <div className={styles.icons}>
-      <Save height={"15"} />
-    </div>
-  </Tooltip>
+        <Tooltip title="Save Session">
+          <div className={styles.icons}>
+            <Save height={"15"} />
+          </div>
+        </Tooltip>
 
-  <Tooltip title="Select Dataset">
-    <div className={styles.icons}>
-      <Dropdown overlay={datasetMenu} trigger={["click"]} placement="topLeft">
-        <Database height={15} style={{ cursor: "pointer" }} />
-      </Dropdown>
-    </div>
-  </Tooltip>
+        <Tooltip title="Select Dataset">
+          <div className={styles.icons}>
+            <Dropdown overlay={datasetMenu} trigger={["click"]} placement="topLeft">
+              <Database height={15} style={{ cursor: "pointer" }} />
+            </Dropdown>
+          </div>
+        </Tooltip>
 
-  <Tooltip title="Select Time Range">
-    <div className={styles.icons}>
-      <Dropdown overlay={timeMenu} trigger={["click"]} placement="topLeft">
-        <Calendar1 height={15} style={{ cursor: "pointer" }} />
-      </Dropdown>
-    </div>
-  </Tooltip>
+        <Tooltip title="Select Time Range">
+          <div className={styles.icons}>
+            <Dropdown overlay={timeMenu} trigger={["click"]} placement="topLeft">
+              <Calendar1 height={15} style={{ cursor: "pointer" }} />
+            </Dropdown>
+          </div>
+        </Tooltip>
 
-  {/* <Tooltip title={isSidebarExpanded ? "Hide Insights" : "Show Insights"}>
-    <div
-      className={styles.icons}
-      onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-    >
-      <Lightbulb height={"15"} />
-    </div>
-  </Tooltip> */}
-    <Tooltip >
-    <div
-      className={styles.icons}
-      onClick={() => setOpen(!open)}
-    >
-      <Lightbulb height={"15"} />
-    </div>
-  </Tooltip>
+        <Tooltip>
+          <div className={styles.icons} onClick={() => setOpen(!open)}>
+            <Lightbulb height={"15"} />
+          </div>
+        </Tooltip>
 
-  <Tooltip title="More Options">
-    <Dropdown overlay={menuItems} trigger={["click"]} placement="bottomRight">
-      <div className={styles.icons}>
-        <Ellipsis height={"15"} />
-      </div>
-    </Dropdown>
-  </Tooltip>
+        <Tooltip title="More Options">
+          <Dropdown overlay={menuItems} trigger={["click"]} placement="bottomRight">
+            <div className={styles.icons}>
+              <Ellipsis height={"15"} />
+            </div>
+          </Dropdown>
+        </Tooltip>
 
-  <Tooltip title="BMW" >
-    <div className={styles.bmwLogo}>
-      <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
-    </div>
-  </Tooltip>
-{/* </div> */}
-        {/* <div className={styles.bmwLogo}>
-          <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
-        </div> */}
-         <div className={styles.wrapper}>
-      {/* Bulb Button */}
-      {/* <button
-        className={styles.bulbButton}
-        onClick={() => setOpen(!open)}
-      >
-        💡
-      </button> */}
-
-      {/* Context & Insights Panel */}
-   {open && (
-  <div className={styles.panel}>
-    <div className={styles.header}>
-             <span>Context & Insights</span>
-           </div>
-           <div className={styles.section}>
-                     <h4 className={styles.sectionTitle}>Context Memory</h4>
-                     <ul className={styles.list}>
-                       {contextMemory.map((item, idx) => (
-                         <li key={idx} className={styles.listItem}>
-                           {item.label} <strong>{item.value}</strong>
-                         </li>
-                       ))}
-                     </ul>
-                   </div>
-                      <div className={styles.section}>
-                             <h4 className={styles.sectionTitle}>Variables Detected</h4>
-                             <div className={styles.tags}>
-                               {variables.map((variable, idx) => (
-                                 <span key={idx} className={styles.tag}>
-                                   {variable}
-                                 </span>
-                               ))}
-                             </div>
-                           </div>
-                     <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><Lightbulb height={15}/>Suggested Questions</h4>}>
-                             {suggestedQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => setMessages(q)}>
-                                 {q}
-                               </div>
-                             ))}
-                           </ExpandCollapseSection>
-                   
-                           {/* <div className={styles.section}> */}
-                             <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><TrendingUp height={15} />Popular Questions</h4>}>
-                             {popularQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => setValue(q)}>
-                                 {q}
-                               </div>
-                             ))}
-                        </ExpandCollapseSection>
-                   
-                           {/* </div> */}
-                   
-                           {/* <div className={styles.section}> */}
-                             <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><ChartColumnIncreasing height={15}/>KPI Questions</h4>}>
-                             {kpiQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => {
-  setMessages([{ sender: "user", text: q }]);
-  sendMessage(q);
-}}>
-                                 {q}
-                               </div>
-                             ))}
-                        </ExpandCollapseSection>
-  </div>
-)}
-
-    </div>
-  
+        <Tooltip title="BMW">
+          <div className={styles.bmwLogo}>
+            <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
+          </div>
+        </Tooltip>
       </div>
     </div>
   );

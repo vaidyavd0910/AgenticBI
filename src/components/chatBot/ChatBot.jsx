@@ -34,6 +34,7 @@ const ChatBot = ({ searchInput, setSearchInput, messages, sendMessage }) => {
                 sendMessage={() => sendMessage(searchInput)}
               />
             ) : (
+              <div id="chat-container">
               <div className={styles.chatHistory}>
                 {messages.map((msg, index) => (
                   <div
@@ -75,6 +76,7 @@ const ChatBot = ({ searchInput, setSearchInput, messages, sendMessage }) => {
 
                 {/* 👇 Always keep this div at the bottom */}
                 <div ref={messagesEndRef} />
+              </div>
               </div>
             )}
           </div>

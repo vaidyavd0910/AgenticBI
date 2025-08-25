@@ -67,7 +67,21 @@ function App() {
     };
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+const restartChat = async () => {
+      console.log(messages, "message 258")
+      const userQueries = messages
+        .filter((msg) => msg.sender === "user")
+        .map((msg) => msg.text);
 
+      setMessages([]);
+      
+      setTimeout(async() => {
+        for (const query of userQueries) {
+          setMessages((prev) => [...prev, { sender: "user", text: query }]);
+          await sendMessage(query);
+        }
+      }, 2000);
+    };
   return (
     <BrowserRouter>
       <Routes>
@@ -84,6 +98,7 @@ function App() {
               setSearchInput={setSearchInput}
               sendMessage={sendMessage}
               setValue={setValue} value={value}
+              restartChat={restartChat}
             />} />
           <Route path="/chatAnalysis" element={<ChatAnalysis />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />
