@@ -2,10 +2,17 @@ import axios from "axios";
 
 const BASE_URL = "http://13.218.69.29:8000";
 
-export const fetchQueryResult = async (query) => {
-  const response = await axios.get(`${BASE_URL}/mock/query`, {
-    params: { q: query }
-  });
+export const fetchQueryResult = async (query,dataset,timerange) => {
+  console.log(dataset,timerange, "dropdowns")
+  const response = await axios.post(`${BASE_URL}/mock/query`, {
+      query,
+      dataset,
+      timerange
+    }, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
   console.info(response);
   return response.data;
 };
@@ -21,5 +28,21 @@ export const getChatHistory = async () => {
   console.info(response);
   return response.data;
 };
+
+export const saveMultiChat = async (sessionName, queries) => {
+  const response = await axios.post(`${BASE_URL}/mock/save_multi_chat`, {
+      session_name: sessionName,
+      queries,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.info(queries,"quries")
+    return response.data;
+};
+
+
 
 

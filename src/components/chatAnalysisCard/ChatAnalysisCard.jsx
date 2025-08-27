@@ -36,13 +36,17 @@ export const ChatAnalysisCard = ({ cardData }) => {
       </div>
      
       <p className={styles.description}>{cardData.description}</p>
-      {/* <div className={styles.tags}>
-        {cardData.tags.map((tag, i) => (
-          <span key={i} className={styles.tag}>
-            {tag}
-          </span>
-        ))}
-      </div> */}
+      {/* <div className={styles.tags}> */}
+        {cardData.tags?.length > 0 && (
+          <div className={styles.tags}>
+            {cardData.tags.map((tag, i) => (
+              <span key={i} className={styles.tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      {/* </div> */}
       <div className={styles.lableContainer}>
          <div className={styles.datasetTypeContainer}>
         <div className={styles.iconDiv}><Database height={15} /></div><div className={styles.datasetTypeCon}>{cardData.datasetType}</div>

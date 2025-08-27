@@ -70,11 +70,11 @@ export const ChatAnalysis = () => {
               cardData={{
                 title: card.user_query,
                 description: card.response.summary,
-                messages: card.response.table.rows.length, // mock message count
+                messages: card.response.table.rows.length, 
                 time: new Date(card.timestamp).toLocaleString(),
                 tags: card.response.Variables_Detected || [],
-                datasetType: 'Custome Dataset',
-                timeRange: 'Last 90 days'
+                datasetType: card.dataset || "Unknown Dataset",
+                timeRange: card.timerange || "Not specified"
               }}
             />
           ))

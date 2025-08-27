@@ -14,6 +14,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ChatAnalysis } from './pages/chatAnalysis/ChatAnalysis';
 import { LandingPage } from './pages/landingPage/LandingPage';
 import { fetchQueryResult } from './service/Api';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -21,6 +22,9 @@ function App() {
     const [searchInput, setSearchInput] = useState('');
     const [prevQuery, setPrevQuery] = useState("")
     const [value, setValue] = useState('');
+    const [dataset, setDataset] =useState('');
+    const [timerange, setTimerange] = useState('');
+    const [title, setTitle] = useState(" Session Name");
     const sendMessage = async (searchQuery, isRerun = false) => {
         const queryValue = isRerun ? prevQuery : searchQuery
         setPrevQuery(queryValue);
@@ -41,7 +45,7 @@ function App() {
         }
     
         try {
-          const response = await fetchQueryResult(queryValue);
+          const response = await fetchQueryResult(queryValue,dataset,timerange);
           const botResponse = {
             sender: 'bot',
             chart: response.data?.showChart || false,
@@ -83,11 +87,19 @@ const restartChat = async () => {
       }, 2000);
     };
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/new-analysis" element={<NewAnalysis />} />
         <Route path="/" element={<ChatSectionLayout isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded}  />}>
-          <Route path="/" element={<LandingPage sendMessage={sendMessage} setValue={setValue} value={value}/>} />
+          <Route path="/" element={<LandingPage sendMessage={sendMessage} setValue={setValue} value={value}
+          setTimerange={setTimerange}
+              setDataset={setDataset}
+              dataset={dataset}
+              timerange={timerange}
+              setTitle={setTitle}
+              messages={messages}/>} 
+              />
           <Route path="/chatPage" element={
             <ChatPage 
               isSidebarExpanded={isSidebarExpanded} 
@@ -99,12 +111,20 @@ const restartChat = async () => {
               sendMessage={sendMessage}
               setValue={setValue} value={value}
               restartChat={restartChat}
+              setTimerange={setTimerange}
+              setDataset={setDataset}
+              dataset={dataset}
+              timerange={timerange}
+              setTitle={setTitle}
+              title={title}
             />} />
           <Route path="/chatAnalysis" element={<ChatAnalysis />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />
         </Route>
       </Routes>
     </BrowserRouter>
+    <ToastContainer/>
+    </>
   );
 }
 

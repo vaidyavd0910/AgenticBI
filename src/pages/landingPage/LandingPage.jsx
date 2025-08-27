@@ -34,12 +34,10 @@ const quickFilters = [
   { label: "Suggested", type: "suggested", icon: <Lightbulb height={15}/> },
   { label: "Popular", type: "popular", icon: <TrendingUp height={15} /> },
 ];
-export const LandingPage = ({ sendMessage }) => {
+export const LandingPage = ({ sendMessage, setTimerange , setDataset , timerange , dataset  }) => {
   const [value, setValue] = useState('');
   const [activeFilter, setActiveFilter] = useState("");
   const [questionsData, setQuestionsData] = useState({ KPI: [], Suggested: [], Popular: [] });
-  const [selectedDatasets, setSelectedDatasets] = useState([]);
-  const [selectedTimes, setSelectedTimes] = useState([]);
   const navigate = useNavigate();
 
   // dataset menu handler
@@ -47,7 +45,7 @@ export const LandingPage = ({ sendMessage }) => {
      <Menu
     onClick={({ key }) => {
       // Replace the dataset selection (only one allowed)
-      setSelectedDatasets([key]);
+      setDataset(key);
     }}
   >
       <span style={{ margin: 0, padding: '5px', fontSize: "11px", fontWeight: 'bold', color: "gray" }}>Dataset</span>
@@ -64,7 +62,7 @@ export const LandingPage = ({ sendMessage }) => {
     <Menu
     onClick={({ key }) => {
       // Replace the time selection (only one allowed)
-      setSelectedTimes([key]);
+      setTimerange(key);
     }}
   >
       <span style={{ margin: 0, padding: '5px', fontSize: "11px", fontWeight: 'bold', color: "gray" }}>Time Range</span>
@@ -99,7 +97,7 @@ export const LandingPage = ({ sendMessage }) => {
     sendMessage(value);
     setValue("");
     navigate("/chatPage");
-    await fetchQueryResult(value);
+    await fetchQueryResult(value,dataset,timerange);
   };
 
   return (
@@ -166,21 +164,21 @@ export const LandingPage = ({ sendMessage }) => {
           
         </div>
        <div className={styles.pillar}> 
-  <div className={styles.selectedTags}>
-    {[...selectedDatasets, ...selectedTimes].map((item) => (
-      <div key={item} className={styles.tag}>
-        {item}
-        <X 
-          className={styles.closeIcon} 
-          onClick={() => {
-            // Clear either dataset or time based on which is selected
-            setSelectedDatasets(selectedDatasets.filter(d => d !== item));
-            setSelectedTimes(selectedTimes.filter(t => t !== item));
-          }} 
-        />
-      </div>
-    ))}
-  </div>
+ <div className={styles.selectedTags}>
+  {[dataset, timerange].filter(Boolean).map((item) => (
+    <div key={item} className={styles.tag}>
+      {item}
+      <X
+        className={styles.closeIcon}
+        onClick={() => {
+          if (dataset === item) setDataset("");
+          if (timerange === item) setTimerange("");
+        }}
+      />
+    </div>
+  ))}
+</div>
+
 </div>
       </div>
 

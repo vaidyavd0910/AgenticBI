@@ -10,7 +10,8 @@ import {
   Dropdown,
   Input,
   Calendar,
-  Tooltip
+  Tooltip,
+  message
 } from "antd";
 import bmw from "../../assets/bmw-logo.svg";
 import styles from "./ChatSubNav.module.css";
@@ -31,9 +32,10 @@ import {
   TrendingUp,
   X,
 } from "lucide-react";
-import { addQuestion } from "../../service/Api";
+import { addQuestion, saveMultiChat } from "../../service/Api";
 import { ExpandCollapseSection } from "../expandCollapse/ExpandCollapseSection";
 import html2pdf from "html2pdf.js";   // ✅ use html2pdf.js
+import { showToast } from "../../utils/helperFunctions/toastFunction";
 
 export const ChatSubNav = ({
   isSidebarExpanded,
@@ -42,16 +44,21 @@ export const ChatSubNav = ({
   setSearchInput,
   setValue,
   setMessages,
-  restartChat
+  messages,
+  restartChat,
+  setDataset,
+setTimerange,
+dataset,
+timerange,
+title,
+setTitle
 }) => {
-  const [title, setTitle] = useState("Analysis Session");
+
   const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = useState(false);
-  const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+    const [suggestedQuestions, setSuggestedQuestions] = useState([]);
   const [popularQuestions, setPopularQuestions] = useState([]);
   const [kpiQuestions, setKpiQuestions] = useState([]);
-  const [selectedDataset, setSelectedDataset] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
 
   const contextMemory = [
     { label: "Time Period:", value: "Last 30 days" },
@@ -107,7 +114,7 @@ export const ChatSubNav = ({
   );
 
   const datasetMenu = (
-    <Menu onClick={({ key }) => setSelectedDataset(key)}>
+    <Menu onClick={({ key }) => setDataset(key)}>
       <span className={styles.menuTitle}>Dataset</span>
       <Menu.Item key="All Datasets">All Datasets</Menu.Item>
       <Menu.Item key="Sales Dataset">Sales Dataset</Menu.Item>
@@ -118,7 +125,7 @@ export const ChatSubNav = ({
   );
 
   const timeMenu = (
-    <Menu onClick={({ key }) => setSelectedTime(key)}>
+    <Menu onClick={({ key }) => setTimerange(key)}>
       <span className={styles.menuTitle}>Time Range</span>
       <Menu.Item key="All Time">All Time</Menu.Item>
       <Menu.Item key="Last 7 days">Last 7 days</Menu.Item>
@@ -146,6 +153,44 @@ export const ChatSubNav = ({
   const handleTitleEdit = () => setIsEditing(true);
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleTitleSave = () => setIsEditing(false);
+  const handleSaveSession = async () => {
+  try {
+    // Pair user + bot messages
+    const queries = [];
+    for (let i = 0; i < messages.length; i++) {
+      const msg = messages[i];
+      if (msg.sender === "user") {
+        const botReply = messages[i + 1]; // assume next is bot
+        if (botReply && botReply.sender === "bot") {
+          queries.push({
+            user_query: msg.text,
+            dataset: botReply.dataset || dataset || "Unknown Dataset",
+            timerange: botReply.timerange || timerange || "Not specified",
+            response: {
+              summary: botReply.summary,
+              insights: botReply.insights,
+              table: botReply.table,
+              graph: botReply.graph,
+              context_memory: botReply.contextMemory,
+              Variables_Detected: botReply.variablesDetected,
+            },
+          });
+        }
+      }
+    }
+
+      
+
+    const res = await saveMultiChat(title,queries);
+    showToast(`Session saved: ${res.session_name}`,'success')
+    message.success(`Session saved: ${res.session_name}`);
+    console.info("Save response:", res);
+  } catch (err) {
+    message.error("Failed to save session");
+    console.error(err);
+  }
+};
+
 
   return (
     <div className={styles.container}>
@@ -188,31 +233,29 @@ export const ChatSubNav = ({
       </div>
 
       <div className={styles.rightSection}>
-        {/* ✅ Selected Tags */}
         <div className={styles.selectedTags}>
-          {selectedDataset && (
+          {dataset && (
             <div className={styles.tag}>
-              {selectedDataset}
-              <X className={styles.closeIcon} onClick={() => setSelectedDataset(null)} />
+              {dataset}
+              <X className={styles.closeIcon} onClick={() => setDataset(null)} />
             </div>
           )}
-          {selectedTime && (
+          {timerange && (
             <div className={styles.tag}>
-              {selectedTime}
-              <X className={styles.closeIcon} onClick={() => setSelectedTime(null)} />
+              {timerange}
+              <X className={styles.closeIcon} onClick={() => setTimerange(null)} />
             </div>
           )}
         </div>
 
-        {/* Actions */}
        <Tooltip title="Refresh Analysis">
     <div onClick={restartChat} className={styles.icons}>
       <RefreshCw height={"15"} />
     </div>
   </Tooltip>
 
-        <Tooltip title="Save Session">
-          <div className={styles.icons}>
+         <Tooltip title="Save Session">
+          <div className={styles.icons} onClick={handleSaveSession}>
             <Save height={"15"} />
           </div>
         </Tooltip>
