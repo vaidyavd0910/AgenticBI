@@ -50,3 +50,11 @@ export const chatAnalysisData= [
     tags: ["Customer Dataset", "Last 6 months"]
   }
 ]
+
+export const chartLineColors = [
+  "#82ca9d",
+  "#be4c26ff",
+  "#0ec7bdff",
+  "#b10dbcff",
+  "#dd327fff",
+]

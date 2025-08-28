@@ -4,6 +4,7 @@ import { ButtonComponent } from '../button/ButtonComponent';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Table } from 'antd';
 import { ChartColumnIncreasing, Table as TableIcon, ChevronDown, ChevronUp } from 'lucide-react';
+import { chartLineColors } from '../../utils/staticData';
 
 export const ChatResponseCard = ({
   summary,
@@ -75,12 +76,12 @@ export const ChatResponseCard = ({
   <LineChart
     width={600}
     height={250}
-    data={chartData}
+    data={chartData?.data}
     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
   >
     <CartesianGrid strokeDasharray="3 3" />
     <XAxis 
-      dataKey="date" 
+      dataKey={chartData?.xAxis} 
       tick={{ fontSize: 10 }}   // 👈 smaller font for X axis
     />
     <YAxis 
@@ -89,8 +90,13 @@ export const ChatResponseCard = ({
    <Tooltip contentStyle={{ fontSize: '12px' }} />
   <Legend wrapperStyle={{ fontSize: '12px' }} />
 
-  <Line type="monotone" dataKey="product1" stroke="#82ca9d" />
-  <Line type="monotone" dataKey="product2" stroke="#be4c26ff" />
+  {chartData?.chartLines.map((line, index) => (
+    <Line type="monotone" dataKey={line} stroke={chartLineColors[index]} />
+  ))}
+
+
+  {/* <Line type="monotone" dataKey="product1" stroke="#82ca9d" />
+  <Line type="monotone" dataKey="product2" stroke="#be4c26ff" /> */}
   </LineChart>
 </div>
 
