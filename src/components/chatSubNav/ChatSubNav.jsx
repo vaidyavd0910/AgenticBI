@@ -38,11 +38,7 @@ import html2pdf from "html2pdf.js";   // ✅ use html2pdf.js
 import { showToast } from "../../utils/helperFunctions/toastFunction";
 
 export const ChatSubNav = ({
-  isSidebarExpanded,
-  setIsSidebarExpanded,
   sendMessage,
-  setSearchInput,
-  setValue,
   setMessages,
   messages,
   restartChat,
@@ -51,7 +47,9 @@ setTimerange,
 dataset,
 timerange,
 title,
-setTitle
+setTitle,
+contextMemory,
+variables
 }) => {
 
   const [isEditing, setIsEditing] = useState(false);
@@ -60,12 +58,12 @@ setTitle
   const [popularQuestions, setPopularQuestions] = useState([]);
   const [kpiQuestions, setKpiQuestions] = useState([]);
 
-  const contextMemory = [
-    { label: "Time Period:", value: "Last 30 days" },
-    { label: "Dataset:", value: "Sales Dataset" },
-    { label: "Region Filter:", value: "North America" },
-    { label: "Product Category:", value: "All Categories" },
-  ];
+  // const contextMemory = [
+  //   { label: "Time Period:", value: "Last 30 days" },
+  //   { label: "Dataset:", value: "Sales Dataset" },
+  //   { label: "Region Filter:", value: "North America" },
+  //   { label: "Product Category:", value: "All Categories" },
+  // ];
 
   // ✅ FIXED PDF Export
   const downloadChatAsPDF = () => {
@@ -97,7 +95,7 @@ setTitle
 };
 
 
-  const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
+  // const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
 
   const menuItems = (
     <Menu>
@@ -295,34 +293,41 @@ setTitle
             <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
           </div>
         </Tooltip>
-       {open && (
+      {open && (
   <div className={styles.panel}>
     <div className={styles.header}>
-             <span>Context & Insights</span>
-           </div>
-           <div className={styles.section}>
-                     <h4 className={styles.sectionTitle}>Context Memory</h4>
-                     <ul className={styles.list}>
-                       {contextMemory.map((item, idx) => (
-                         <li key={idx} className={styles.listItem}>
-                           {item.label} <strong>{item.value}</strong>
-                         </li>
-                       ))}
-                     </ul>
-                   </div>
-                      <div className={styles.section}>
-                             <h4 className={styles.sectionTitle}>Variables Detected</h4>
-                             <div className={styles.tags}>
-                               {variables.map((variable, idx) => (
-                                 <span key={idx} className={styles.tag}>
-                                   {variable}
-                                 </span>
-                               ))}
-                             </div>
-                           </div>
-                     <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><Lightbulb height={15}/>Suggested Questions</h4>}>
+      <span>Context & Insights</span>
+    </div>
+
+    {/* Context Memory */}
+    <div className={styles.section}>
+      <h4 className={styles.sectionTitle}>Context Memory</h4>
+      <ul className={styles.list}>
+        {contextMemory.map((item, idx) => (
+          <li key={idx} className={styles.listItem}>
+            {item.label} <strong>{item.value}</strong>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Variables Detected */}
+    <div className={styles.section}>
+      <h4 className={styles.sectionTitle}>Variables Detected</h4>
+      <div className={styles.tags}>
+        {variables.map((variable, idx) => (
+          <span key={idx} className={styles.tag}>
+            {variable}
+          </span>
+        ))}
+      </div>
+    </div>
+     <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><Lightbulb height={15}/>Suggested Questions</h4>}>
                              {suggestedQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => setMessages(q)}>
+                               <div key={idx} className={styles.questionItem} onClick={() => {
+  setMessages([{ sender: "user", text: q }]);
+  sendMessage(q,dataset,
+timerange,);}}>
                                  {q}
                                </div>
                              ))}
@@ -331,7 +336,10 @@ setTitle
                            {/* <div className={styles.section}> */}
                              <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><TrendingUp height={15} />Popular Questions</h4>}>
                              {popularQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => setValue(q)}>
+                               <div key={idx} className={styles.questionItem} onClick={() => {
+  setMessages([{ sender: "user", text: q }]);
+  sendMessage(q,dataset,
+timerange,);}}>
                                  {q}
                                </div>
                              ))}

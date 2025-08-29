@@ -21,7 +21,9 @@ setTimerange,
 dataset,
 timerange,
 setTitle,
-title
+title,
+contextMemory,
+variables
 }) => {
 
   return (
@@ -43,7 +45,9 @@ title
               timerange={timerange}
               setTitle={setTitle}
               title={title}
-              messages={messages}/>
+              messages={messages}
+               contextMemory={contextMemory}
+              variables={variables}/>
             </div>
               <ChatBot searchInput={searchInput}
                setSearchInput={setSearchInput}

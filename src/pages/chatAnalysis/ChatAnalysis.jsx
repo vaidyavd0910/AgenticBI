@@ -68,7 +68,8 @@ export const ChatAnalysis = ({sendMessage, setDataset, setTimerange}) => {
             <ChatAnalysisCard
               key={card.id}
               cardData={{
-                title: card.user_query,
+                title: card.session_name,
+                old_query: card.user_query,
                 description: card.response.summary,
                 messages: card.response.table.rows.length, 
                 time: new Date(card.timestamp).toLocaleString(),

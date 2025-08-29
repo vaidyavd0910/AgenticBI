@@ -26,6 +26,8 @@ function App() {
     const [dataset, setDataset] =useState('');
     const [timerange, setTimerange] = useState('');
     const [title, setTitle] = useState(" Session Name");
+    const [contextMemory, setContextMemory] = useState([]);
+    const [variables, setVariables] = useState([]);
 
    
     const sendMessage = async (searchQuery, dataset, timerange, isNewAnalysis = false) => {
@@ -64,6 +66,21 @@ function App() {
     
         try {
           const response = await fetchQueryResult(queryValue,dataset,timerange);
+          if (response.context_memory && response.context_memory.length > 0) {
+      const formattedContext = Object.entries(response.context_memory[0]).map(
+        ([key, value]) => ({
+          label: `${key}:`,
+          value,
+        })
+      );
+      setContextMemory(formattedContext);
+    }
+
+    // ✅ Update variables detected dynamically
+    if (response.Variables_Detected) {
+      setVariables(response.Variables_Detected);
+    }
+
           const botResponse = {
             sender: 'bot',
             chart: response.data?.showChart || false,
@@ -145,6 +162,8 @@ showToast("Refreshing...",'succss')
               timerange={timerange}
               setTitle={setTitle}
               title={title}
+              contextMemory={contextMemory}
+              variables={variables}
             />} />
           <Route path="/chatAnalysis" element={<ChatAnalysis sendMessage={sendMessage} setDataset={setDataset} setTimerange={setTimerange} />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />
