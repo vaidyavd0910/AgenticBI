@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import ChatBot from './components/chatBot/ChatBot';
 import { ChatNav } from './components/chatNav/ChatNav';
@@ -20,29 +20,44 @@ function App() {
 
     const [messages, setMessages] = useState([]);
     const [searchInput, setSearchInput] = useState('');
-    const [prevQuery, setPrevQuery] = useState("")
+    // const [prevQuery, setPrevQuery] = useState("")
     const [value, setValue] = useState('');
     const [dataset, setDataset] =useState('');
     const [timerange, setTimerange] = useState('');
     const [title, setTitle] = useState(" Session Name");
-    const sendMessage = async (searchQuery, isRerun = false) => {
-        const queryValue = isRerun ? prevQuery : searchQuery
-        setPrevQuery(queryValue);
+    const sendMessage = async (searchQuery, dataset, timerange, isNewAnalysis = false) => {
+        const queryValue =  searchQuery
+        // setPrevQuery(queryValue);
         
-        if(!isRerun) {
+        // if(!isRerun) {
           if (!queryValue.trim()) return;
-          const newMessages = [...messages, { sender: 'user', text: searchQuery }];
-          setMessages(newMessages);
-          setSearchInput('');
+          
+          const loaderMessage = { sender: 'loader', text: 'getting response' };
+
+          if(isNewAnalysis) {
+            const newMessages = [{ sender: 'user', text: searchQuery }];
+            setMessages(newMessages);
+            setSearchInput('');
+            setMessages([...newMessages, loaderMessage]);
+          }
+          else {
+            const newMessages = [...messages, { sender: 'user', text: searchQuery }];
+            setMessages(newMessages);
+            setSearchInput('');
+            setMessages([...newMessages, loaderMessage]);
+          }
+          // const newMessages = [...messages, { sender: 'user', text: searchQuery }];
+          // setMessages(newMessages);
+          // setSearchInput('');
       
-          const loaderMessage = { sender: 'loader', text: 'getting response' };
-          setMessages([...newMessages, loaderMessage]);
-        }
-        else {
-          const loaderMessage = { sender: 'loader', text: 'getting response' };
-          const newMessages = [...messages, loaderMessage];
-          setMessages(newMessages);
-        }
+          // const loaderMessage = { sender: 'loader', text: 'getting response' };
+          // setMessages([...newMessages, loaderMessage]);
+        // }
+        // else {
+        //   const loaderMessage = { sender: 'loader', text: 'getting response' };
+        //   const newMessages = [...messages, loaderMessage];
+        //   setMessages(newMessages);
+        // }
     
         try {
           const response = await fetchQueryResult(queryValue,dataset,timerange);
@@ -70,35 +85,44 @@ function App() {
         }
     };
 
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-const restartChat = async () => {
-      console.log(messages, "message 258")
-      const userQueries = messages
-        .filter((msg) => msg.sender === "user")
-        .map((msg) => msg.text);
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+    const restartChat = async () => {
+          console.log(messages, "message 258")
+          const userQueries = messages
+            .filter((msg) => msg.sender === "user")
+            .map((msg) => msg.text);
 
-      setMessages([]);
-      
-      setTimeout(async() => {
-        for (const query of userQueries) {
-          setMessages((prev) => [...prev, { sender: "user", text: query }]);
-          await sendMessage(query);
-        }
-      }, 2000);
-    };
+          setMessages([]);
+          
+          setTimeout(async() => {
+            for (const query of userQueries) {
+              setMessages((prev) => [...prev, { sender: "user", text: query }]);
+              await sendMessage(query, dataset, timerange);
+            }
+          }, 2000);
+        };
+
+    useEffect(() => {
+      console.log(messages, "messages test 111");
+    }, [messages])
+
   return (
     <>
     <BrowserRouter>
       <Routes>
         <Route path="/new-analysis" element={<NewAnalysis />} />
         <Route path="/" element={<ChatSectionLayout isSidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded}  />}>
-          <Route path="/" element={<LandingPage sendMessage={sendMessage} setValue={setValue} value={value}
-          setTimerange={setTimerange}
+          <Route path="/" element={<LandingPage 
+              sendMessage={sendMessage} 
+              setValue={setValue} value={value}
+              setTimerange={setTimerange}
               setDataset={setDataset}
               dataset={dataset}
               timerange={timerange}
               setTitle={setTitle}
-              messages={messages}/>} 
+              messages={messages}
+              setMessages={setMessages}
+            />} 
               />
           <Route path="/chatPage" element={
             <ChatPage 
@@ -118,7 +142,7 @@ const restartChat = async () => {
               setTitle={setTitle}
               title={title}
             />} />
-          <Route path="/chatAnalysis" element={<ChatAnalysis />} />
+          <Route path="/chatAnalysis" element={<ChatAnalysis sendMessage={sendMessage} setDataset={setDataset} setTimerange={setTimerange} />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />
         </Route>
       </Routes>

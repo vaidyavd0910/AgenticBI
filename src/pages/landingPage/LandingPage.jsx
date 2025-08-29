@@ -34,7 +34,7 @@ const quickFilters = [
   { label: "Suggested", type: "suggested", icon: <Lightbulb height={15}/> },
   { label: "Popular", type: "popular", icon: <TrendingUp height={15} /> },
 ];
-export const LandingPage = ({ sendMessage, setTimerange , setDataset , timerange , dataset  }) => {
+export const LandingPage = ({ sendMessage, setTimerange , setDataset , timerange , dataset, setMessages }) => {
   const [value, setValue] = useState('');
   const [activeFilter, setActiveFilter] = useState("");
   const [questionsData, setQuestionsData] = useState({ KPI: [], Suggested: [], Popular: [] });
@@ -93,8 +93,9 @@ export const LandingPage = ({ sendMessage, setTimerange , setDataset , timerange
 
   const handleMsg = async () => {
     if (!value.trim()) return;
-
-    sendMessage(value);
+    setMessages([]);
+    console.log("test refreshed")
+    await sendMessage(value, dataset, timerange, true);
     setValue("");
     navigate("/chatPage");
     await fetchQueryResult(value,dataset,timerange);
