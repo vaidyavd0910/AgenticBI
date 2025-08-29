@@ -15,6 +15,7 @@ import { ChatAnalysis } from './pages/chatAnalysis/ChatAnalysis';
 import { LandingPage } from './pages/landingPage/LandingPage';
 import { fetchQueryResult } from './service/Api';
 import { ToastContainer } from 'react-toastify';
+import { showToast } from './utils/helperFunctions/toastFunction';
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
     const [dataset, setDataset] =useState('');
     const [timerange, setTimerange] = useState('');
     const [title, setTitle] = useState(" Session Name");
+
+   
     const sendMessage = async (searchQuery, dataset, timerange, isNewAnalysis = false) => {
         const queryValue =  searchQuery
         // setPrevQuery(queryValue);
@@ -91,12 +94,13 @@ function App() {
           const userQueries = messages
             .filter((msg) => msg.sender === "user")
             .map((msg) => msg.text);
-
+showToast("Refreshing...",'succss')
           setMessages([]);
           
           setTimeout(async() => {
             for (const query of userQueries) {
               setMessages((prev) => [...prev, { sender: "user", text: query }]);
+              
               await sendMessage(query, dataset, timerange);
             }
           }, 2000);

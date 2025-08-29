@@ -45,7 +45,16 @@ title
               title={title}
               messages={messages}/>
             </div>
-              <ChatBot searchInput={searchInput} setSearchInput={setSearchInput} messages={messages} sendMessage={sendMessage}/>
+              <ChatBot searchInput={searchInput}
+               setSearchInput={setSearchInput}
+                messages={messages} 
+                sendMessage={sendMessage}
+                 setTimerange={setTimerange}
+              setDataset={setDataset}
+              dataset={dataset}
+              timerange={timerange}
+                />
+
         </div>
   )
 }

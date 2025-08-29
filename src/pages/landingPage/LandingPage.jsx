@@ -39,7 +39,12 @@ export const LandingPage = ({ sendMessage, setTimerange , setDataset , timerange
   const [activeFilter, setActiveFilter] = useState("");
   const [questionsData, setQuestionsData] = useState({ KPI: [], Suggested: [], Popular: [] });
   const navigate = useNavigate();
-
+ useEffect(
+      ()=>{
+        setDataset('');
+        setTimerange('')
+      },[]
+    )
   // dataset menu handler
   const datasetMenu = (
      <Menu

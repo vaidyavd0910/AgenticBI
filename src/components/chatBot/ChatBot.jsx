@@ -9,7 +9,8 @@ import { chatMessageData } from '../../utils/staticData';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const ChatBot = ({ searchInput, setSearchInput, messages, sendMessage }) => {
+const ChatBot = ({ searchInput, setSearchInput, messages, sendMessage, dataset,
+timerange}) => {
   const location = useLocation();
   const fromNewAnalysis = location.state?.fromNewAnalysis;
 
@@ -85,7 +86,8 @@ const ChatBot = ({ searchInput, setSearchInput, messages, sendMessage }) => {
         <Footer
           message={searchInput}
           setMessage={setSearchInput}
-          onSend={() => sendMessage(searchInput)}
+          onSend={() => sendMessage(searchInput,dataset,
+timerange,)}
         />
       </div>
     </>
