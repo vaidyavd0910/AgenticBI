@@ -73,7 +73,6 @@ export const ChatResponseCard = ({
       ) : (
        
   <div className={styles.chartPlaceholder}>
-    {console.log(chartsData && chartsData, "chart data")}
     {chartsData && chartsData?.map((chart) => {
       const chartType = chart?.chartType;
       return (
