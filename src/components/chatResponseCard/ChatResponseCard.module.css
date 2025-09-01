@@ -6,7 +6,7 @@
   background-color: white;
   border: 1px solid  #ecebeb;;
   flex-grow: auto;
-  max-height: 650px;
+  /* max-height: 650px; */
   overflow-y: auto;
    width: 600px;        /* set a fixed width */
   min-width: 600px;    /* prevent shrinking */
