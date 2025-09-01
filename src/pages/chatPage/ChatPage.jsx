@@ -53,10 +53,10 @@ variables
                setSearchInput={setSearchInput}
                 messages={messages} 
                 sendMessage={sendMessage}
-                 setTimerange={setTimerange}
-              setDataset={setDataset}
-              dataset={dataset}
-              timerange={timerange}
+                setTimerange={setTimerange}
+                setDataset={setDataset}
+                dataset={dataset}
+                timerange={timerange}
                 />
 
         </div>

@@ -68,7 +68,7 @@ timerange}) => {
                         summary={msg?.summary}
                         insights={msg?.insights}
                         question={chatMessageData?.question}
-                        chartData={msg?.graph}
+                        chartsData={msg?.graph}
                         tableData={msg?.table}
                       />
                     )}

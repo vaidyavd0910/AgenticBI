@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styles from './ChatResponseCard.module.css';
 import { ButtonComponent } from '../button/ButtonComponent';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import { Table } from 'antd';
 import { ChartColumnIncreasing, Table as TableIcon, ChevronDown, ChevronUp } from 'lucide-react';
 import { chartLineColors } from '../../utils/staticData';
@@ -9,7 +9,7 @@ import { chartLineColors } from '../../utils/staticData';
 export const ChatResponseCard = ({
   summary,
   insights = [],
-  chartData = [],
+  chartsData = [],
   tableData = [],
   onAddToDashboard = () => console.log("Handling add to dashboard"),
   onExportResult = () => console.log("Handling export Result"),
@@ -72,32 +72,90 @@ export const ChatResponseCard = ({
         </div>
       ) : (
        
-        <div className={styles.chartPlaceholder}>
-  <LineChart
-    width={600}
-    height={250}
-    data={chartData?.data}
-    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-  >
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis 
-      dataKey={chartData?.xAxis} 
-      tick={{ fontSize: 10 }}   // 👈 smaller font for X axis
-    />
-    <YAxis 
-      tick={{ fontSize: 10 }}   // 👈 smaller font for Y axis
-    />
-   <Tooltip contentStyle={{ fontSize: '12px' }} />
-  <Legend wrapperStyle={{ fontSize: '12px' }} />
+  <div className={styles.chartPlaceholder}>
+    {chartsData && chartsData?.map((chart) => {
+      const chartType = chart?.chartType;
+      return (
+        <>
+        {chartType === "line" ?
+          <LineChart
+            width={600}
+            height={250}
+            data={chart?.data}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey={chart?.xAxis} 
+                tick={{ fontSize: 10 }}   // 👈 smaller font for X axis
+              />
+              <YAxis 
+                tick={{ fontSize: 10 }}   // 👈 smaller font for Y axis
+              />
+            <Tooltip contentStyle={{ fontSize: '12px' }} />
+            <Legend wrapperStyle={{ fontSize: '12px' }} />
 
-  {chartData?.chartLines.map((line, index) => (
-    <Line type="monotone" dataKey={line} stroke={chartLineColors[index]} />
-  ))}
+            {chart?.chartLines?.map((line, index) => (
+              <Line type="monotone" dataKey={line} stroke={chartLineColors[index]} />
+            ))}
 
 
-  {/* <Line type="monotone" dataKey="product1" stroke="#82ca9d" />
-  <Line type="monotone" dataKey="product2" stroke="#be4c26ff" /> */}
-  </LineChart>
+          {/* <Line type="monotone" dataKey="product1" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="product2" stroke="#be4c26ff" /> */}
+          </LineChart>
+          :
+          chartType == "bar" ? 
+          <BarChart
+            width={600}
+            height={250}
+            data={chart?.data}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey={chart?.xAxis} 
+                tick={{ fontSize: 10 }}   // 👈 smaller font for X axis
+              />
+              <YAxis 
+                tick={{ fontSize: 10 }}   // 👈 smaller font for Y axis
+              />
+            <Tooltip contentStyle={{ fontSize: '12px' }} />
+            <Legend wrapperStyle={{ fontSize: '12px' }} />
+
+            {chart?.chartLines?.map((line, index) => (
+              <Bar dataKey={line} fill={chartLineColors[index]} />
+            ))}
+          </BarChart>
+          :
+          chartType == "stacked_bar" ? 
+          <BarChart
+            width={600}
+            height={250}
+            data={chart?.data}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey={chart?.xAxis} 
+                tick={{ fontSize: 10 }}   // 👈 smaller font for X axis
+              />
+              <YAxis 
+                tick={{ fontSize: 10 }}   // 👈 smaller font for Y axis
+              />
+            <Tooltip contentStyle={{ fontSize: '12px' }} />
+            <Legend wrapperStyle={{ fontSize: '12px' }} />
+
+            {chart?.chartLines?.map((line, index) => (
+              <Bar dataKey={line} stackId="stackbar" fill={chartLineColors[index]} />
+            ))}
+          </BarChart>
+          :
+          null
+        }
+        </>
+    )
+  }
+  )}
 </div>
 
       )}

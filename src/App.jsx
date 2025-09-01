@@ -40,17 +40,18 @@ function App() {
           const loaderMessage = { sender: 'loader', text: 'getting response' };
 
           if(isNewAnalysis) {
-            const newMessages = [{ sender: 'user', text: searchQuery }];
-            setMessages(newMessages);
-            setSearchInput('');
-            setMessages([...newMessages, loaderMessage]);
+            // const newMessages = [{ sender: 'user', text: searchQuery }];
+            // setMessages(newMessages);
+            // setMessages([...newMessages, loaderMessage]);
+            setMessages([{ sender: 'user', text: queryValue }, loaderMessage]);
           }
           else {
-            const newMessages = [...messages, { sender: 'user', text: searchQuery }];
-            setMessages(newMessages);
-            setSearchInput('');
-            setMessages([...newMessages, loaderMessage]);
+            // const newMessages = [...messages, { sender: 'user', text: searchQuery }];
+            // setMessages(newMessages);
+            // setMessages([...newMessages, loaderMessage]);
+            setMessages(prev => [...prev, { sender: 'user', text: queryValue }, loaderMessage]);
           }
+          setSearchInput('');
           // const newMessages = [...messages, { sender: 'user', text: searchQuery }];
           // setMessages(newMessages);
           // setSearchInput('');
@@ -67,13 +68,13 @@ function App() {
         try {
           const response = await fetchQueryResult(queryValue,dataset,timerange);
           if (response.context_memory && response.context_memory.length > 0) {
-      const formattedContext = Object.entries(response.context_memory[0]).map(
-        ([key, value]) => ({
-          label: `${key}:`,
-          value,
-        })
-      );
-      setContextMemory(formattedContext);
+          const formattedContext = Object.entries(response.context_memory[0]).map(
+            ([key, value]) => ({
+              label: `${key}:`,
+              value,
+            })
+          );
+          setContextMemory(formattedContext);
     }
 
     // ✅ Update variables detected dynamically
@@ -87,7 +88,7 @@ function App() {
             summary: response.summary,
             insights: response.insights,
             table: response.table,
-            graph: response.graph,
+            graph: response.graphs,
             contextMemory: response.context_memory,
             variablesDetected: response.Variables_Detected
           };
@@ -108,19 +109,17 @@ function App() {
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
     const restartChat = async () => {
           console.log(messages, "message 258")
-          const userQueries = messages
-            .filter((msg) => msg.sender === "user")
-            .map((msg) => msg.text);
-showToast("Refreshing...",'succss')
           setMessages([]);
+          const userQueries = messages?.filter((msg) => msg.sender === "user").map((msg) => msg.text);
+          showToast("Refreshing...",'succss')
+          console.log(userQueries, "queries test")
           
-          setTimeout(async() => {
+          // setTimeout(async() => {
             for (const query of userQueries) {
-              setMessages((prev) => [...prev, { sender: "user", text: query }]);
-              
+              // setMessages((prev) => [...prev, { sender: "user", text: query }]);
               await sendMessage(query, dataset, timerange);
             }
-          }, 2000);
+          // }, 2000);
         };
 
     useEffect(() => {
