@@ -13,7 +13,7 @@ const DropDown = [
   { value: 'opt4', label: 'Most Messages' },
 ];
 
-export const ChatAnalysis = ({sendMessage, setDataset, setTimerange}) => {
+export const ChatAnalysis = ({sendMessage, setDataset, setTimerange,setTitle}) => {
   const [selectedData, setSelectedData] = useState('opt1');
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,6 +80,7 @@ export const ChatAnalysis = ({sendMessage, setDataset, setTimerange}) => {
               sendMessage={sendMessage}
               setDataset={setDataset}
               setTimerange={setTimerange}
+              setTitle={setTitle}
             />
           ))
         )}

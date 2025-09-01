@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './ChatPage.module.css'
 import { ChatNav } from '../../components/chatNav/ChatNav'
 import { ChatSubNav } from '../../components/chatSubNav/ChatSubNav'
 import ChatBot from '../../components/chatBot/ChatBot'
 import ChatSuggestions from '../../components/chatSuggestions/ChatSuggestions'
 import { Footer } from '../../components/footer/Footer'
+import { NavigationGuard } from '../../components/NavigationGuard'
 export const ChatPage = ({
   isSidebarExpanded,
   restartChat, 
@@ -28,7 +29,11 @@ variables
 
   return (
      <div className={styles.appContainer}>
-         
+           <NavigationGuard
+        when={messages.length > 0}   // condition: only block if messages exist
+        onConfirm={() => setMessages([])} // delete = clear data
+      />
+
             <div style={{marginLeft : '15px',marginRight: '15px'}}>
               <ChatSubNav 
               isSidebarExpanded={isSidebarExpanded} 

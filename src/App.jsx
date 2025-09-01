@@ -164,7 +164,8 @@ function App() {
               contextMemory={contextMemory}
               variables={variables}
             />} />
-          <Route path="/chatAnalysis" element={<ChatAnalysis sendMessage={sendMessage} setDataset={setDataset} setTimerange={setTimerange} />} />
+          <Route path="/chatAnalysis" element={<ChatAnalysis sendMessage={sendMessage} setDataset={setDataset} setTimerange={setTimerange} setTitle={setTitle}
+              title={title} />} />
           <Route path="/chatSuggestions" element={<ChatSuggestions />} />
         </Route>
       </Routes>

@@ -3,12 +3,13 @@ import styles from './ChatAnalysisCard.module.css';
 import { Play, FileText, RotateCcw, MessageSquare, Clock4, Database, Tag } from 'lucide-react'; // icons for actions
 import { useNavigate } from 'react-router-dom';
 
-export const ChatAnalysisCard = ({ cardData, sendMessage, setDataset, setTimerange }) => {
+export const ChatAnalysisCard = ({ cardData, sendMessage, setDataset, setTimerange , setTitle }) => {
    const navigate = useNavigate();
   
   const handleCardClick = async(cardData) => {
     setDataset(cardData?.datasetType);
     setTimerange(cardData?.timeRange);
+    setTitle(cardData?.title);
     await sendMessage(cardData?.old_query, cardData?.datasetType, cardData?.timeRange, cardData?.title,  true);
 
     // Navigate to chat page with the session id
