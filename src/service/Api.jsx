@@ -44,5 +44,10 @@ export const saveMultiChat = async (sessionName, queries) => {
 };
 
 
+export const getDatasetAndTimeRange = async () => {
+  const response = await axios.get(`${BASE_URL}/datasets`);
+  console.info(response);
+  return response.data;
+};
 
 

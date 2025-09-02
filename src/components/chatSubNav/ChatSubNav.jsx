@@ -17,7 +17,6 @@ import bmw from "../../assets/bmw-logo.svg";
 import styles from "./ChatSubNav.module.css";
 import {
   Bookmark,
-  Brain,
   Calendar1,
   ChartColumnIncreasing,
   Check,
@@ -43,59 +42,44 @@ export const ChatSubNav = ({
   messages,
   restartChat,
   setDataset,
-setTimerange,
-dataset,
-timerange,
-title,
-setTitle,
-contextMemory,
-variables
+  setTimerange,
+  dataset,
+  timerange,
+  title,
+  setTitle,
+  contextMemory,
+  variables
 }) => {
-
   const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = useState(false);
-    const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+  const [suggestedQuestions, setSuggestedQuestions] = useState([]);
   const [popularQuestions, setPopularQuestions] = useState([]);
   const [kpiQuestions, setKpiQuestions] = useState([]);
 
-  // const contextMemory = [
-  //   { label: "Time Period:", value: "Last 30 days" },
-  //   { label: "Dataset:", value: "Sales Dataset" },
-  //   { label: "Region Filter:", value: "North America" },
-  //   { label: "Product Category:", value: "All Categories" },
-  // ];
-
   // ✅ FIXED PDF Export
   const downloadChatAsPDF = () => {
-  const element = document.getElementById("chat-container");
+    const element = document.getElementById("chat-container");
 
-  // Get session title (remove spaces for filename safety)
-  const sessionName = title.replace(/\s+/g, "_");
+    const sessionName = title.replace(/\s+/g, "_");
+    const now = new Date();
+    const timestamp = now
+      .toISOString()
+      .replace(/T/, "_")
+      .replace(/:/g, "-")
+      .split(".")[0];
+    const fileName = `${sessionName}_${timestamp}.pdf`;
 
-  // Format current date & time (YYYY-MM-DD_HH-mm-ss)
-  const now = new Date();
-  const timestamp = now
-    .toISOString()
-    .replace(/T/, "_")
-    .replace(/:/g, "-")
-    .split(".")[0];
+    const opt = {
+      margin: 10,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+    };
 
-  const fileName = `${sessionName}_${timestamp}.pdf`;
-
-  const opt = {
-    margin: 10,
-    filename: fileName, // ✅ dynamic filename
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+    html2pdf().set(opt).from(element).save();
   };
-
-  html2pdf().set(opt).from(element).save();
-};
-
-
-  // const variables = ["Revenue", "Growth Rate", "Region", "Category", "Time Period"];
 
   const menuItems = (
     <Menu>
@@ -151,44 +135,41 @@ variables
   const handleTitleEdit = () => setIsEditing(true);
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleTitleSave = () => setIsEditing(false);
+
   const handleSaveSession = async () => {
-  try {
-    // Pair user + bot messages
-    const queries = [];
-    for (let i = 0; i < messages.length; i++) {
-      const msg = messages[i];
-      if (msg.sender === "user") {
-        const botReply = messages[i + 1]; // assume next is bot
-        if (botReply && botReply.sender === "bot") {
-          queries.push({
-            user_query: msg.text,
-            dataset: botReply.dataset || dataset || "Unknown Dataset",
-            timerange: botReply.timerange || timerange || "Not specified",
-            response: {
-              summary: botReply.summary,
-              insights: botReply.insights,
-              table: botReply.table,
-              graph: botReply.graph,
-              context_memory: botReply.contextMemory,
-              Variables_Detected: botReply.variablesDetected,
-            },
-          });
+    try {
+      const queries = [];
+      for (let i = 0; i < messages.length; i++) {
+        const msg = messages[i];
+        if (msg.sender === "user") {
+          const botReply = messages[i + 1];
+          if (botReply && botReply.sender === "bot") {
+            queries.push({
+              user_query: msg.text,
+              dataset: botReply.dataset || dataset || "Unknown Dataset",
+              timerange: botReply.timerange || timerange || "Not specified",
+              response: {
+                summary: botReply.summary,
+                insights: botReply.insights,
+                table: botReply.table,
+                graph: botReply.graph,
+                context_memory: botReply.contextMemory,
+                Variables_Detected: botReply.variablesDetected,
+              },
+            });
+          }
         }
       }
+
+      const res = await saveMultiChat(title, queries);
+      showToast(`Session saved: ${res.session_name}`, "success");
+      message.success(`Session saved: ${res.session_name}`);
+      console.info("Save response:", res);
+    } catch (err) {
+      message.error("Failed to save session");
+      console.error(err);
     }
-
-      
-
-    const res = await saveMultiChat(title,queries);
-    showToast(`Session saved: ${res.session_name}`,'success')
-    message.success(`Session saved: ${res.session_name}`);
-    console.info("Save response:", res);
-  } catch (err) {
-    message.error("Failed to save session");
-    console.error(err);
-  }
-};
-
+  };
 
   return (
     <div className={styles.container}>
@@ -206,7 +187,10 @@ variables
             <div className={styles.checkButton} onClick={handleTitleSave}>
               <Check height={"15"} color={"green"} />
             </div>
-            <div className={styles.crossButton} onClick={() => setIsEditing(false)}>
+            <div
+              className={styles.crossButton}
+              onClick={() => setIsEditing(false)}
+            >
               <X height={"15"} color={"red"} />
             </div>
           </>
@@ -235,24 +219,30 @@ variables
           {dataset && (
             <div className={styles.tag}>
               {dataset}
-              <X className={styles.closeIcon} onClick={() => setDataset(null)} />
+              <X
+                className={styles.closeIcon}
+                onClick={() => setDataset(null)}
+              />
             </div>
           )}
           {timerange && (
             <div className={styles.tag}>
               {timerange}
-              <X className={styles.closeIcon} onClick={() => setTimerange(null)} />
+              <X
+                className={styles.closeIcon}
+                onClick={() => setTimerange(null)}
+              />
             </div>
           )}
         </div>
 
-       <Tooltip title="Refresh Analysis">
-    <div onClick={restartChat} className={styles.icons}>
-      <RefreshCw height={"15"} />
-    </div>
-  </Tooltip>
+        <Tooltip title="Refresh Analysis">
+          <div onClick={restartChat} className={styles.icons}>
+            <RefreshCw height={"15"} />
+          </div>
+        </Tooltip>
 
-         <Tooltip title="Save Session">
+        <Tooltip title="Save Session">
           <div className={styles.icons} onClick={handleSaveSession}>
             <Save height={"15"} />
           </div>
@@ -293,78 +283,96 @@ variables
             <img src={bmw} alt="BMW Logo" style={{ height: "22px" }} />
           </div>
         </Tooltip>
-      {open && (
-  <div className={styles.panel}>
-    <div className={styles.header}>
-      <span>Context & Insights</span>
-    </div>
 
-    {/* Context Memory */}
-    <div className={styles.section}>
-      <h4 className={styles.sectionTitle}>Context Memory</h4>
-      <ul className={styles.list}>
-        {contextMemory.map((item, idx) => (
-          <li key={idx} className={styles.listItem}>
-            {item.label} <strong>{item.value}</strong>
-          </li>
-        ))}
-      </ul>
-    </div>
+        {open && (
+          <div className={styles.panel}>
+            <div className={styles.header}>
+              <span>Context & Insights</span>
+            </div>
 
-    {/* Variables Detected */}
-    <div className={styles.section}>
-      <h4 className={styles.sectionTitle}>Variables Detected</h4>
-      <div className={styles.tags}>
-        {variables.map((variable, idx) => (
-          <span key={idx} className={styles.tag}>
-            {variable}
-          </span>
-        ))}
+            {/* Context Memory */}
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Context Memory</h4>
+              <ul className={styles.list}>
+                {contextMemory.map((item, idx) => (
+                  <li key={idx} className={styles.listItem}>
+                    {item.label} <strong>{item.value}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Variables Detected */}
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Variables Detected</h4>
+              <div className={styles.tags}>
+                {variables.map((variable, idx) => (
+                  <span key={idx} className={styles.tag}>
+                    {variable}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Suggested Questions */}
+            <ExpandCollapseSection
+              title={
+                <h4 className={styles.sectionTitle}>
+                  <Lightbulb height={15} /> Suggested Questions
+                </h4>
+              }
+            >
+              {suggestedQuestions.map((q, idx) => (
+                <div
+                  key={idx}
+                  className={styles.questionItem}
+                  onClick={() => sendMessage(q, dataset, timerange)}
+                >
+                  {q}
+                </div>
+              ))}
+            </ExpandCollapseSection>
+
+            {/* Popular Questions */}
+            <ExpandCollapseSection
+              title={
+                <h4 className={styles.sectionTitle}>
+                  <TrendingUp height={15} /> Popular Questions
+                </h4>
+              }
+            >
+              {popularQuestions.map((q, idx) => (
+                <div
+                  key={idx}
+                  className={styles.questionItem}
+                  onClick={() => sendMessage(q, dataset, timerange)}
+                >
+                  {q}
+                </div>
+              ))}
+            </ExpandCollapseSection>
+
+            {/* KPI Questions */}
+            <ExpandCollapseSection
+              title={
+                <h4 className={styles.sectionTitle}>
+                  <ChartColumnIncreasing height={15} /> KPI Questions
+                </h4>
+              }
+            >
+              {kpiQuestions.map((q, idx) => (
+                <div
+                  key={idx}
+                  className={styles.questionItem}
+                  onClick={() => sendMessage(q, dataset, timerange)}
+                >
+                  {q}
+                </div>
+              ))}
+            </ExpandCollapseSection>
+          </div>
+        )}
       </div>
     </div>
-     <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><Lightbulb height={15}/>Suggested Questions</h4>}>
-                             {suggestedQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => {
-  setMessages([{ sender: "user", text: q }]);
-  sendMessage(q,dataset,
-timerange,);}}>
-                                 {q}
-                               </div>
-                             ))}
-                           </ExpandCollapseSection>
-                   
-                           {/* <div className={styles.section}> */}
-                             <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><TrendingUp height={15} />Popular Questions</h4>}>
-                             {popularQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => {
-  setMessages([{ sender: "user", text: q }]);
-  sendMessage(q,dataset,
-timerange,);}}>
-                                 {q}
-                               </div>
-                             ))}
-                        </ExpandCollapseSection>
-                   
-                           {/* </div> */}
-                   
-                           {/* <div className={styles.section}> */}
-                             <ExpandCollapseSection title={<h4 className={styles.sectionTitle}><ChartColumnIncreasing height={15}/>KPI Questions</h4>}>
-                             {kpiQuestions.map((q, idx) => (
-                               <div key={idx} className={styles.questionItem} onClick={() => {
-  setMessages([{ sender: "user", text: q }]);
-  sendMessage(q,dataset,
-timerange,);
-}}>
-                                 {q}
-                               </div>
-                             ))}
-                        </ExpandCollapseSection>
-  </div>
-)}
-
-    </div>
-  
-      </div>
-  
   );
 };

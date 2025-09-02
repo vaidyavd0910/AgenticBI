@@ -99,8 +99,6 @@ export const LandingPage = ({ sendMessage, setTimerange , setDataset , timerange
   const handleMsg = async () => {
     if (!value.trim()) return;
     setMessages([]);
-    setDataset("");
-    setTimerange("");
     setTitle("Session Name");
     console.log("test refreshed")
     await sendMessage(value, dataset, timerange, true);
