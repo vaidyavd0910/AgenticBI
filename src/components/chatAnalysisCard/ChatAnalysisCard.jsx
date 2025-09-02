@@ -9,7 +9,7 @@ export const ChatAnalysisCard = ({ cardData, sendMessage, setDataset, setTimeran
   const handleCardClick = async(cardData) => {
     setDataset(cardData?.datasetType);
     setTimerange(cardData?.timeRange);
-    setTitle(cardData?.title);
+    setTitle(cardData?.title || "Session Name");
     await sendMessage(cardData?.old_query, cardData?.datasetType, cardData?.timeRange, cardData?.title,  true);
 
     // Navigate to chat page with the session id
