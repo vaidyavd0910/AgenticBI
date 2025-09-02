@@ -48,7 +48,8 @@ export const ChatSubNav = ({
   title,
   setTitle,
   contextMemory,
-  variables
+  variables,
+   setIsSessionSaved
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = useState(false);
@@ -163,6 +164,7 @@ export const ChatSubNav = ({
 
       const res = await saveMultiChat(title, queries);
       showToast(`Session saved: ${res.session_name}`, "success");
+       setIsSessionSaved(true);
       message.success(`Session saved: ${res.session_name}`);
       console.info("Save response:", res);
     } catch (err) {

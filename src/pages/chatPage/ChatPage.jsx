@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ChatPage.module.css'
 import { ChatNav } from '../../components/chatNav/ChatNav'
 import { ChatSubNav } from '../../components/chatSubNav/ChatSubNav'
@@ -26,12 +26,13 @@ title,
 contextMemory,
 variables
 }) => {
-
+ const [isSessionSaved, setIsSessionSaved] = useState(false);
   return (
      <div className={styles.appContainer}>
-           <NavigationGuard
-        when={messages.length > 0}   // condition: only block if messages exist
-        onConfirm={() => setMessages([])} // delete = clear data
+            <NavigationGuard
+        when={messages.length > 0}          // only block if messages exist
+        isSessionSaved={isSessionSaved}     // ✅ new check
+        onConfirm={() => setMessages([])}   // delete = clear data
       />
 
             <div style={{marginLeft : '15px',marginRight: '15px'}}>
@@ -52,7 +53,8 @@ variables
               title={title}
               messages={messages}
                contextMemory={contextMemory}
-              variables={variables}/>
+              variables={variables}
+                setIsSessionSaved={setIsSessionSaved}/>
             </div>
               <ChatBot searchInput={searchInput}
                setSearchInput={setSearchInput}
